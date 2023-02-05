@@ -10,6 +10,8 @@
 		}
 	}, */
 
+	"runArgs": ["--env-file","./.env"],
+
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 
@@ -17,7 +19,7 @@
 	"forwardPorts": [5173],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "sudo bash ./.devcontainer/post-create-command.sh",
+	"postCreateCommand": "sudo bash ./.devcontainer/post-create-command.sh"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
