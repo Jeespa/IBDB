@@ -3,6 +3,9 @@
 # Exit in case of error
 set -e
 
+# this seems to have to run for some reason
+(npm install)
+
 # vite must be installed
 (npm install vite)
 
