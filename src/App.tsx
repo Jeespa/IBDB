@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { TextField, Button, Stack, Paper, Container } from "@mui/material";
 import Books from "./Books";
+import Login from "./Login"
 
 import { db } from "./config.js";
 import { doc, setDoc } from "firebase/firestore";
@@ -32,6 +33,7 @@ function App() {
 
   return (
     <div className="App">
+      <Login />
       <h1>Firestore Library</h1>
       <Container
         component={Paper}
