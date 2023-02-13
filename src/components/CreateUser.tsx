@@ -72,7 +72,7 @@ function CreateUser() {
         type="email"
         value={email}
         onChange={e => setEmail(e.target.value)}
-        placeholder="Epost"
+        placeholder="Email"
       />
       <input
         type="password"
