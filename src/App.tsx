@@ -1,13 +1,12 @@
 import Home from "./pages/Home"
 import Navbar from './components/Navbar';
-import React from 'react'
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import AddBook from './pages/AddBook'
-import Login from './pages/Login'
+import { auth } from "./firebase-config";
+import LoginPage from "./LoginPage";
 
 function app() {
-
 
   return (
     <Router>
@@ -16,7 +15,7 @@ function app() {
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/addbook" element={<AddBook />}/>
-        <Route path="/login" element={<Login />}/>
+        <Route path="/login" element={<LoginPage />}/>
       </Routes>
     </div>
     </Router>

@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { TextField, Button, Stack, Paper, Container } from "@mui/material";
 import Books from "../components/Books";
-import Login from "./Login"
 
-import { db } from "../config.js";
+import { db } from "../firebase-config.js";
 import { doc, setDoc } from "firebase/firestore";
+import { auth } from "../firebase-config";
 
 function AddBook() {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [quantity, setQuantity] = useState("");
-  
+
   const addBook = async () => {
     if (title !== "" && author !== "" && quantity !== "") {
       try {
@@ -36,8 +36,7 @@ function AddBook() {
       <h1>Firestore Library</h1>
       <Container
         component={Paper}
-        sx={{ marginBottom: "20px", padding: "20px" }}
-      >
+        sx={{ marginBottom: "20px", padding: "20px" }}>
         <h2 style={{ fontSize: "20px" }}>Add New Book</h2>
         <Stack direction="row" spacing={2}>
           <TextField
