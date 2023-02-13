@@ -4,7 +4,7 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import AddBook from './pages/AddBook'
 import { auth } from "./firebase-config";
-import LoginPage from "./LoginPage";
+import LoginPage from "./pages/LoginPage";
 
 function app() {
 
