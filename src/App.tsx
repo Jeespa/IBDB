@@ -8,8 +8,6 @@ import LoginPage from "./LoginPage";
 
 function app() {
 
-  console.log(auth);
-
   return (
     <Router>
     <div className="pt-20">
