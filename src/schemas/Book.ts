@@ -1,6 +1,7 @@
 import { Timestamp } from 'firebase/firestore';
 
 export interface Book {
+    ISBN: string;
     author: string;
     title: string;
     description: string;
