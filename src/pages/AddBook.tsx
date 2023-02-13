@@ -15,7 +15,7 @@ function AddBook() {
     if (title !== "" && author !== "" && quantity !== "") {
       try {
         //add book data to collection
-        await setDoc(doc(db, "Bøker", title), {
+        await setDoc(doc(db, "books", title), {
           title,
           author,
           quantity,

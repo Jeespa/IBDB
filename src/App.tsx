@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import AddBook from './pages/AddBook'
 import { auth } from "./firebase-config";
 import LoginPage from "./LoginPage";
+import Login from './pages/Login'
+import BookPage from './pages/BookPage'
 
 function app() {
 
@@ -15,7 +17,8 @@ function app() {
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/addbook" element={<AddBook />}/>
-        <Route path="/login" element={<LoginPage />}/>
+        <Route path="/login" element={<Login />}/>
+        <Route path="/bookpage/:bookname" element={<BookPage />}/>
       </Routes>
     </div>
     </Router>

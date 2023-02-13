@@ -3,6 +3,7 @@ import { TableContainer, Table, Paper, TableHead, TableRow, TableCell, TableBody
 import { useState, useEffect } from "react";
 import { db } from "../firebase-config.js";
 import { collection, query, onSnapshot, doc, deleteDoc, DocumentData} from "firebase/firestore";
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Books() {
@@ -12,7 +13,7 @@ export default function Books() {
 
     //getBooks functions to attach a listener and fetch book data
     const getBooks = () => {
-        const q = query(collection(db, "Bøker"));
+        const q = query(collection(db, "books"));
         onSnapshot(q, (querySnapshot) => {
             const rows: DocumentData[] = [];
             querySnapshot.forEach((doc) => {
@@ -28,9 +29,11 @@ export default function Books() {
     }, []);
 
     const deleteBook = async (title: string) =>{
-        await deleteDoc(doc(db, "Bøker", title));
+        await deleteDoc(doc(db, "books", title));
         alert(title+" has been successfully deleted.")
     }
+
+    const navigate = useNavigate();
 
     return (
         <TableContainer component={Paper}>
@@ -53,7 +56,9 @@ export default function Books() {
                             <TableCell component="th" scope="row">
                                 {index + 1}
                             </TableCell>
-                            <TableCell>{row.title}</TableCell>
+                            <TableCell>
+                                <button onClick={() => navigate("/bookpage/" + row.title)}>{row.title}</button>
+                            </TableCell>
                             <TableCell>{row.author}</TableCell>
                             <TableCell>{row.quantity}</TableCell>
                             <TableCell>
