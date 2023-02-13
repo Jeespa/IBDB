@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase-config";
 
 import app from "../config";
 
@@ -9,8 +10,6 @@ function Login() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const auth = getAuth(app)
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {

@@ -1,7 +1,7 @@
 import { TableContainer, Table, Paper, TableHead, TableRow, TableCell, TableBody, Button } from "@mui/material"
 
 import { useState, useEffect } from "react";
-import { db } from "../config.js";
+import { db } from "../firebase-config.js";
 import { collection, query, onSnapshot, doc, deleteDoc, DocumentData} from "firebase/firestore";
 
 
