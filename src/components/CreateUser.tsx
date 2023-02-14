@@ -17,7 +17,7 @@ function CreateUser() {
 
         if (name !== "" && email !== "" && password !== "") {
           createUserWithEmailAndPassword(auth, email, password).then( async data => {
-            setUserId(data.user.uid);
+            // setUserId(data.user.uid); Denne gjorde at bruker ble lagt til i Authentication lista i Firebase, men ikke i db.
             try {
               await addDoc(collection(db, "users", userid), {
                 name,
@@ -25,12 +25,21 @@ function CreateUser() {
                 password,
                 admin,
               });
+              //clear textfields after pressing OK
+              setName("");
+              setEmail("");
+              setPassword("");
               alert("Brukeren har blitt opprettet");
             } catch (e) {
               console.error("Error oppstod: ", e);
+
             }
           }).catch( error => {
             alert(error.message);
+           //clear textfields after pressing OK
+            setName("");
+            setEmail("");
+            setPassword("");
           })
           } else {
             alert("Fyll ut alle felt!");
