@@ -5,13 +5,23 @@ import { addDoc, collection } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 function CreateUser() {
+
     const navigate = useNavigate();
     const [userid, setUserId] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [admin, setAdmin] = useState(false);
+    let readBooks: Array<String> = [];
     
+    function clearFields() {
+      setUserId("");
+      setName("");
+      setEmail("");
+      setPassword("");
+      setAdmin(false);
+      readBooks = [];
+    }
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -25,11 +35,10 @@ function CreateUser() {
                 email,
                 password,
                 admin,
+                readBooks,
               });
               //clear textfields after pressing OK
-              setName("");
-              setEmail("");
-              setPassword("");
+              clearFields();
               alert("Brukeren har blitt opprettet");
               navigate('/login');
             } catch (e) {
@@ -38,10 +47,8 @@ function CreateUser() {
             }
           }).catch( error => {
             alert(error.message);
-           //clear textfields after pressing OK
-            setName("");
-            setEmail("");
-            setPassword("");
+            //clear textfields after pressing OK
+            clearFields();
           })
           } else {
             alert("Fyll ut alle felt!");
