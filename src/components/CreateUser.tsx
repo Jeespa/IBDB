@@ -2,9 +2,10 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { auth, db } from "../firebase-config";
 import { addDoc, collection } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 function CreateUser() {
-
+    const navigate = useNavigate();
     const [userid, setUserId] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -30,6 +31,7 @@ function CreateUser() {
               setEmail("");
               setPassword("");
               alert("Brukeren har blitt opprettet");
+              navigate('/login');
             } catch (e) {
               console.error("Error oppstod: ", e);
 
