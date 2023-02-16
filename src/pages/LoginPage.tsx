@@ -1,6 +1,5 @@
+import { Link } from 'react-router-dom';
 import Login from '../components/Login';
-import Logout from '../components/Logout';
-import CreateUserPage from './CreateUserPage';
 
 
 function LoginPage() {
@@ -8,9 +7,7 @@ function LoginPage() {
         <>
         <h2>Login</h2>
         <Login />
-        <Logout />
-        <CreateUserPage />
-        </>
+        <Link to="/createuser"><p>Har du ikke konto? Opprett en her!</p></Link></>
     )
 }
 
