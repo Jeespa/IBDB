@@ -6,21 +6,31 @@ import { Book } from './schemas/Book';
 
 function SearchPage() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<{ id: string; }[]>([]);
+  const [searchResults, setSearchResults] = useState<Book[]>([]);
 
   const searchBooksAndAuthors = async () => {
     const booksRef = collection(db, 'books');
-    const q = collection(db, 'books')
-      .where('title', '>=', searchQuery)
-      .where('title', '<=', searchQuery + '\uf8ff')
-      .get();
+    const q = query(collection(db, 'books'), where('title', '>=', searchQuery), where('title', '<=', searchQuery + '\uf8ff'));
     // const q = query(booksRef, where('title', '>=', searchQuery), where('title', '<=', searchQuery + '\uf8ff'), where('author', '>=', searchQuery), where('author', '<=', searchQuery + '\uf8ff'));
     const querySnapshot = await getDocs(q);
-  
+    
     const results = querySnapshot.docs.map((doc) => {
+      /* console.log(doc.data());
       return {
-        id: doc.id
-      };
+        id: doc.id,
+        title: doc.data
+      }; */
+      const data = doc.data();
+      return {
+        documentID: doc.id,
+        author: data.author,
+        title: data.title,
+        description: data.description,
+        genre: data.genre,
+        image: data.image,
+        pages: data.pages,
+        published: data.published
+      } as Book;
     });
   
     setSearchResults(results);
@@ -44,7 +54,7 @@ function SearchPage() {
       />
       <ul>
         {searchResults.map((result, index) => (
-          <li key={index}>result</li>
+          <li key={index}>{result.title}</li>
         ))}
       </ul>
     </div>
