@@ -85,3 +85,33 @@ p {
   font-size: 16px;
   color:#474747;
 }
+
+
+.search-input {
+  padding-right: 32px; /* Space for the Search icon */
+}
+
+.search-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background-image: url("search.png");
+  background-size: cover;
+  cursor: text;
+}
+
+.search-input::after {
+  content: "";
+  display: block;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background-image: url("search.png");
+  background-size: cover;
+}
