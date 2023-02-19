@@ -1,19 +1,15 @@
-import React from "react";
 import {Link} from 'react-router-dom';
-import '../index.css'
+import Search from "./Search";
+import "./Navbar.css";
 
 function Navbar() {
   return (
-    <div>
+    <div className='navbar-container'>
       <nav>
-        <Link to="/">
-            <img 
-                style={{ marginTop: 20 }} 
-                src={"/ibdb.png"}
-            />
-        </Link>
-        <Link to="/addbook">Add book</Link>
-        <Link to="/login">Log in</Link>
+        <Link to="/"><img src={"/ibdb.png"} style={{marginTop: 15}}/></Link>
+        <div id="search"><Search /></div>
+        <Link to="/addbook"><img src={"/addbook.png"}/></Link>
+        <Link to="/login"><img src={"/account.png"}/></Link>
       </nav>
     </div>
   );
