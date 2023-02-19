@@ -3,7 +3,6 @@ import Navbar from './components/Navbar';
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import AddBook from './pages/AddBook'
-import { auth } from "./firebase-config";
 import LoginPage from "./LoginPage";
 
 function app() {
