@@ -18,7 +18,7 @@ function app() {
         <Route path="/" element={<Home />}/>
         <Route path="/addbook" element={<AddBook />}/>
         <Route path="/login" element={<Login />}/>
-        <Route path="/bookpage/:bookname" element={<BookPage />}/>
+        <Route path="/bookpage/:bookid" element={<BookPage />}/>
       </Routes>
     </div>
     </Router>

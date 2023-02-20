@@ -17,7 +17,7 @@ export default function Books() {
         onSnapshot(q, (querySnapshot) => {
             const rows: DocumentData[] = [];
             querySnapshot.forEach((doc) => {
-                rows.push(doc.data())
+                rows.push({ ...doc.data(), id: doc.id })
             });
             setRows(rows);
         });
@@ -28,9 +28,9 @@ export default function Books() {
         getBooks();
     }, []);
 
-    const deleteBook = async (title: string) =>{
-        await deleteDoc(doc(db, "books", title));
-        alert(title+" has been successfully deleted.")
+    const deleteBook = async (id: string, title: string) =>{
+        await deleteDoc(doc(db, "books", id));
+        alert(title +" has been successfully deleted.")
     }
 
     const navigate = useNavigate();
@@ -44,6 +44,7 @@ export default function Books() {
                         <TableCell>Title</TableCell>
                         <TableCell>Author</TableCell>
                         <TableCell>Quantity</TableCell>
+                        <TableCell>id</TableCell>
                         <TableCell>Delete</TableCell>
                     </TableRow>
                 </TableHead>
@@ -57,12 +58,13 @@ export default function Books() {
                                 {index + 1}
                             </TableCell>
                             <TableCell>
-                                <button onClick={() => navigate("/bookpage/" + row.title)}>{row.title}</button>
+                                <button onClick={() => navigate("/bookpage/" + row.id)}>{row.title}</button>
                             </TableCell>
                             <TableCell>{row.author}</TableCell>
                             <TableCell>{row.quantity}</TableCell>
+                            <TableCell>{row.id}</TableCell>
                             <TableCell>
-                                <Button variant="outlined" color="error" onClick={()=>deleteBook(row.title)}>
+                                <Button variant="outlined" color="error" onClick={()=>deleteBook(row.id, row.title)}>
                                     Delete
                                 </Button>
                             </TableCell>
