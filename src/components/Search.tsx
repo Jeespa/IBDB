@@ -22,16 +22,9 @@ function Search() {
     const querySnapshot = await getDocs(q);
 
     let results = querySnapshot.docs.map((doc) => {
-      const data = doc.data();
-      return {
-        documentID: doc.id,
-        authors: data.authors,
-        title: data.title,
-        description: data.description,
-        genre: data.genre,
-        pages: data.pages,
-        published: data.published,
-      } as Book;
+      const data = doc.data() as Record<string, any>;
+      data["documentID"] = doc.id;
+      return data as Book;
     });
 
     results = results.filter((post) => {
