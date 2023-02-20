@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { db } from '../firebase-config';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, getDocs } from 'firebase/firestore';
 import { Book } from '../schemas/Book';
-import "./Search.css"
+import "./Search.css";
+
 
 function Search() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -11,7 +12,7 @@ function Search() {
   const [showResults, setShowResults] = useState(false);
 
   const searchBooksAndAuthors = async () => {
-    if (searchQuery === ""){
+    if (searchQuery === "") {
       setSearchResults([]);
       return;
     }
