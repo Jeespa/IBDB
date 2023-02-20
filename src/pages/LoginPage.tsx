@@ -5,9 +5,12 @@ import Login from '../components/Login';
 function LoginPage() {
     return (
         <>
-        <h2>Login</h2>
+        <h2>Logg inn</h2>
         <Login />
-        <Link to="/createuser"><p>Har du ikke konto? Opprett en her!</p></Link></>
+        <Link to="/createuser">
+            <p>Har du ikke konto? Opprett en her!</p>
+        </Link>
+        </>
     )
 }
 

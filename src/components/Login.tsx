@@ -28,15 +28,15 @@ function Login() {
         type="email"
         value={email}
         onChange={e => setEmail(e.target.value)}
-        placeholder="Email"
+        placeholder="Epost"
       />
       <input
         type="password"
         value={password}
         onChange={e => setPassword(e.target.value)}
-        placeholder="Password"
+        placeholder="Passord"
       />
-      <button type="submit">Login</button>
+      <button type="submit">Logg inn</button>
     </form>
   );
 }

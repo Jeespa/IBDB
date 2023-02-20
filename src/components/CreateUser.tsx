@@ -60,19 +60,19 @@ function CreateUser() {
         type="name"
         value={name}
         onChange={e => setName(e.target.value)}
-        placeholder="Name"
+        placeholder="Navn"
       />
       <input
         type="email"
         value={email}
         onChange={e => setEmail(e.target.value)}
-        placeholder="Email"
+        placeholder="Epost"
       />
       <input
         type="password"
         value={password}
         onChange={e => setPassword(e.target.value)}
-        placeholder="Password"
+        placeholder="Passord"
       />
       <button type="submit">Opprett bruker</button>
     </form>
