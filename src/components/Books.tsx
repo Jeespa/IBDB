@@ -12,7 +12,7 @@ export default function Books() {
 
     //getBooks functions to attach a listener and fetch book data
     const getBooks = () => {
-        const q = query(collection(db, "Bøker"));
+        const q = query(collection(db, "books"));
         onSnapshot(q, (querySnapshot) => {
             const rows: DocumentData[] = [];
             querySnapshot.forEach((doc) => {
