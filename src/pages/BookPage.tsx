@@ -59,6 +59,18 @@ function BookPage() {
   }
 
   
+  const errorBook: Book = {
+    "documentID": 'Error', // ISBN
+    "author": 'Error',
+    "title": 'Error',
+    "description": 'Error',
+    "genre": [],
+    "image": 'Error',
+    "pages": 0,
+    "published": new Timestamp(0, 0),
+  }
+  
+  const [book, setBook] = useState<Book>(errorBook);
 
   return (
     <div className="page">
