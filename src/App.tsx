@@ -7,6 +7,7 @@ import { auth } from "./firebase-config";
 import LoginPage from "./pages/LoginPage";
 import CreateUserPage from "./pages/CreateUserPage";
 import ProfilePage from "./pages/ProfilePage";
+import BookPage from "./pages/BookPage";
 
 function app() {
 
@@ -20,6 +21,7 @@ function app() {
         <Route path="/login" element={<LoginPage />}/>
         <Route path="/createuser" element={<CreateUserPage />}/>
         <Route path="/profile" element={<ProfilePage />}/>
+        <Route path="bookpage/:bookid" element={<BookPage />}/>
       </Routes>
     </div>
     </Router>
