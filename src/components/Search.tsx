@@ -11,25 +11,32 @@ function Search() {
   const [showResults, setShowResults] = useState(false);
 
   const searchBooksAndAuthors = async () => {
+    if (searchQuery === ""){
+      setSearchResults([]);
+      return;
+    }
     const q = query(
-      collection(db, 'books'),
-      where('title', '>=', searchQuery),
-      where('title', '<=', searchQuery + '\uf8ff')
+      collection(db, 'books')
     );
     const querySnapshot = await getDocs(q);
 
-    const results = querySnapshot.docs.map((doc) => {
+    let results = querySnapshot.docs.map((doc) => {
       const data = doc.data();
       return {
         documentID: doc.id,
-        author: data.author,
+        authors: data.authors,
         title: data.title,
         description: data.description,
         genre: data.genre,
-        image: data.image,
         pages: data.pages,
         published: data.published,
       } as Book;
+    });
+
+    results = results.filter((post) => {
+      if (post.title.toLowerCase().includes(searchQuery.toLowerCase())) {
+        return post;
+      }
     });
 
     setSearchResults(results);
@@ -98,7 +105,7 @@ function Search() {
                   {result.published && (
                     <p className="search-item-year">{result.published.toDate().getFullYear()}</p>
                   )}
-                  <p className="search-item-author">{result.author}</p>
+                  <p className="search-item-author">{result.authors?.join(', ')}</p>
                 </div>
               </li>
             ))}
