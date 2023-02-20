@@ -9,21 +9,32 @@ import { auth } from "../firebase-config";
 function AddBook() {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
-  const [quantity, setQuantity] = useState("");
+  const [description, setDescription] = useState("");
+  const [pages, setPages] = useState("");
+  const [published, setPublished] = useState("");
+  const [genre, setGenre] = useState("");
+  const genreList: Array<String> = ["Fiction", "Fantasy", "Horror", "Comic", "Drama", "Crime", "Romance", "Satire"]
 
   const addBook = async () => {
-    if (title !== "" && author !== "" && quantity !== "") {
+    if (title !== "" && author !== "" && description !== "" && pages !== "" 
+      && published !== "" && genre !== "")  {
       try {
         //add book data to collection
-        await setDoc(doc(db, "Bøker", title), {
+        await setDoc(doc(db, "books", title), {
           title,
           author,
-          quantity,
+          description,
+          pages,
+          published,
+          genre,
         });
         //clear text fields
         setTitle("");
         setAuthor("");
-        setQuantity("");
+        setDescription("");
+        setPages("");
+        setPublished("");
+        setGenre("");
         alert("A new book has been added to the library!");
       } catch (e) {
         console.error("Error adding document: ", e);
@@ -54,11 +65,35 @@ function AddBook() {
             }}
           />
           <TextField
-            label="Quantity"
-            value={quantity}
+            label="Description"
+            value={description}
+            type="text"
+            onChange={(e) => {
+              setDescription(e.target.value);
+            }}
+          />
+          <TextField
+            label="Pages"
+            value={pages}
             type="number"
             onChange={(e) => {
-              setQuantity(e.target.value);
+              setPages(e.target.value);
+            }}
+          />
+          <TextField
+            label="Genre"
+            value={genre}
+            type="text"
+            onChange={(e) => {
+              setGenre(e.target.value);
+            }}
+          />
+          <TextField
+            label="Published"
+            value={published}
+            type="date"
+            onChange={(e) => {
+              setPublished(e.target.value);
             }}
           />
           <Button variant="contained" onClick={addBook}>Add Book</Button>
