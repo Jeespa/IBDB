@@ -1,10 +1,10 @@
 import { Timestamp } from 'firebase/firestore';
 
-export interface Reviews {
-    documentID: string;
+export interface Review {
+    documentID: string; // Auto
     user: string;
     book: string;
     rating: number;
     text: string;
-    published: Timestamp;
+    published?: Timestamp;
 }

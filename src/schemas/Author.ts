@@ -1,9 +1,8 @@
 import { Timestamp } from 'firebase/firestore';
 
 export interface Author {
-    documentID: string;
+    documentID: string; // Auto
     name: string;
-    birth: Timestamp;
-    image: string;
-    nationality: string;
+    birth?: Timestamp;
+    nationality?: string;
 }
