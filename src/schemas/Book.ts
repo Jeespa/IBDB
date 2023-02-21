@@ -2,11 +2,10 @@ import { Timestamp } from 'firebase/firestore';
 
 export interface Book {
     documentID: string; // ISBN
-    author: string;
+    authors?: Array<string>;
     title: string;
-    description: string;
-    genre: Array<string>;
-    image: string;
-    pages: number;
-    published: Timestamp;
+    description?: string;
+    genre?: Array<string>;
+    pages?: number;
+    published?: Timestamp;
 }
