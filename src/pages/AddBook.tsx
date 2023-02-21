@@ -44,7 +44,8 @@ function AddBook() {
 
   return (
     <div className="App">
-      <h1>Firestore Library</h1>
+      <h1>IKKE LEGG TIL BØKER HER: Firestore Library</h1>
+      <p>Det må fikses slik at det matcher med backend først! Søk ødelegges hvis dokumentene blir lagt inn feil. Publiseringsdatoen må være av typen timestamp og det være en array av authors,</p>
       <Container
         component={Paper}
         sx={{ marginBottom: "20px", padding: "20px" }}>

@@ -1,13 +1,13 @@
+import React from "react";
 import Home from "./pages/Home"
 import Navbar from './components/Navbar';
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import AddBook from './pages/AddBook'
-import { auth } from "./firebase-config";
 import LoginPage from "./pages/LoginPage";
 import CreateUserPage from "./pages/CreateUserPage";
 import ProfilePage from "./pages/ProfilePage";
-import BookPage from "./pages/BookPage";
+import Book from "./pages/Book";
 
 function app() {
 
@@ -21,7 +21,7 @@ function app() {
         <Route path="/login" element={<LoginPage />}/>
         <Route path="/createuser" element={<CreateUserPage />}/>
         <Route path="/profile" element={<ProfilePage />}/>
-        <Route path="bookpage/:bookid" element={<BookPage />}/>
+        <Route path="/book/:isbn" element={<Book />}/>
       </Routes>
     </div>
     </Router>
