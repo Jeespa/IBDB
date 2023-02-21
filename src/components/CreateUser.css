@@ -1,7 +1,8 @@
-.login-form {
+.CreateUser {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 50px;
     justify-content: center;
     margin: 0 auto;
     width: 50%;
@@ -12,41 +13,31 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
   
-  .login-form label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .login-form input {
+  .CreateUser input {
+    margin: 10px;
     padding: 10px;
-    margin: 10px 0;
     border: none;
     border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    width: 300px;
   }
   
-  .login-form button {
-    padding: 10px;
-    margin: 10px 0;
+  .CreateUser button {
+    margin: 20px;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     background-color: #4ba2ff;
     color: #fff;
-    font-weight: bold;
+    font-size: 16px;
     cursor: pointer;
   }
   
-  .login-form .error {
-    color: red;
-    margin: 10px 0;
-  }
-
-  .login-form button:hover {
+  .CreateUser button:hover {
     background-color: #6ab2ff;
   }
   
-  .login-form input:focus {
+  .CreateUser input:focus {
     outline: none;
     box-shadow: 0px 0px 5px #4ba2ff;
   }
