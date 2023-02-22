@@ -1,27 +1,34 @@
 import { useState } from "react";
 import "./Slideshow.css";
 
-const Slideshow = ({slides}) => {
+function Slideshow() {
+    const slides =[
+     //sett inn whatever man vil vise i slideshow
+    '../account.png',
+    '../addbook.png',
+    '../ibdb.png',
+    '../search.png',
+    '../vite.svg',
+    ]
+
     const [index, setIndex] = useState(0);
    
     const next = () => {
         if (index === slides.length -1) {
             setIndex(0)  
-            console.log("index: " + index);
         } else {
             setIndex(index +1)
-            console.log("du er nå på " + index);
         }
+        console.log("index: " + index)
     }
 
     const previous = () => {
         if (index === 0) {
             setIndex(slides.length -1)
-            console.log("index: " + index)
         } else {
             setIndex(index -1)
-            console.log("du er nå på " + index);
         }
+        console.log("index: " + index)
     }
     
     return (

@@ -6,15 +6,7 @@ function Home() {
   return (
     <>
     <h1>Home</h1>
-    <Slideshow slides={[
-//sett inn whatever man vil vise i slideshow
-      '../account.png',
-      '../addbook.png',
-      '../ibdb.png',
-      '../search.png',
-      '../vite.svg'
-      ]}
-    />
+    <Slideshow />
     </>
   )
 }
