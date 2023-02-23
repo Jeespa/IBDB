@@ -110,7 +110,7 @@ function Slideshow() {
           doc(db, "books", key)
         );
 
-      const queryRef = query(collection(db, "books"), where("isbn", "in", docRefs));
+      const queryRef = query(collection(db, "books"), where("documentID", "in", docRefs));
       onSnapshot(queryRef, (querySnapshot) => {
         const bookDocs: Array<Book> = [];
         querySnapshot.forEach((doc) => {
