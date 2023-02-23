@@ -2,18 +2,19 @@ import { TableContainer, Table, Paper, TableHead, TableRow, TableCell, TableBody
 
 import { useState, useEffect } from "react";
 import { db } from "../firebase-config.js";
-import { collection, query, onSnapshot, doc, deleteDoc, DocumentData} from "firebase/firestore";
-import { useNavigate } from 'react-router-dom';
+import { collection, query, onSnapshot, DocumentData, where} from "firebase/firestore";
+import { useParams } from "react-router-dom";
 
+export default function Reviews() {
 
-export default function Books() {
+    const currentBook = useParams().isbn;
 
     //our table will display whatever data is in 'rows'
     const [rows, setRows] = useState<DocumentData[]>([]);
 
     //getBooks functions to attach a listener and fetch book data
-    const getBooks = () => {
-        const q = query(collection(db, "books"));
+    const getReviews = () => {
+        const q = query(collection(db, "reviews"), where("isbn", "==", currentBook));
         onSnapshot(q, (querySnapshot) => {
             const rows: DocumentData[] = [];
             querySnapshot.forEach((doc) => {
@@ -25,27 +26,17 @@ export default function Books() {
 
     //call getBooks when app is loaded
     useEffect(() => {
-        getBooks();
+        getReviews();
     }, []);
-
-    const deleteBook = async (id: string, title: string) =>{
-        await deleteDoc(doc(db, "books", id));
-        alert(title +" has been successfully deleted.")
-    }
-
-    const navigate = useNavigate();
 
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 750 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>No.</TableCell>
-                        <TableCell>Title</TableCell>
-                        <TableCell>Author</TableCell>
-                        <TableCell>Quantity</TableCell>
-                        <TableCell>id</TableCell>
-                        <TableCell>Delete</TableCell>
+                        <TableCell>Review No.</TableCell>
+                        <TableCell>Rating</TableCell>
+                        <TableCell>Comment</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -57,17 +48,8 @@ export default function Books() {
                             <TableCell component="th" scope="row">
                                 {index + 1}
                             </TableCell>
-                            <TableCell>
-                                <button onClick={() => navigate("/book/" + row.id)}>{row.title}</button>
-                            </TableCell>
-                            <TableCell>{row.author}</TableCell>
-                            <TableCell>{row.quantity}</TableCell>
-                            <TableCell>{row.id}</TableCell>
-                            <TableCell>
-                                <Button variant="outlined" color="error" onClick={()=>deleteBook(row.id, row.title)}>
-                                    Delete
-                                </Button>
-                            </TableCell>
+                            <TableCell>{row.rating}</TableCell>
+                            <TableCell>{row.text}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

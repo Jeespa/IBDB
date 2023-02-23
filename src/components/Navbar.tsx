@@ -23,7 +23,7 @@ function Navbar() {
       <nav>
         <Link to="/"><img src={"/ibdb.png"} style={{marginTop: 15}}/></Link>
         <div id="search"><Search /></div>
-        <Link to="/login"><img src={"/account.png"}/></Link>
+        <Link to={profilLink}><img src={"/account.png"}/></Link>
       </nav>
     </div>
   );

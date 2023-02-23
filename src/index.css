@@ -73,14 +73,18 @@ button:focus-visible {
   }
 }
 
-
-
 input {
   display:block;
   margin-left: auto;
   margin-right: auto;
   margin-top: 1%;
   margin-bottom: 1%;
-  
+}
+
+#logout {
+  position: absolute;
+  margin: auto;
+  top: 90px;
+  right: 10px;
 }
 
