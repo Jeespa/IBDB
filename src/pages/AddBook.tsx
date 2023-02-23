@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { TextField, Button, Stack, Paper, Container } from "@mui/material";
 import Books from "../components/Books";
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
 
 import { db } from "../firebase-config.js";
 import { doc, setDoc } from "firebase/firestore";
@@ -8,29 +10,33 @@ import { auth } from "../firebase-config";
 
 function AddBook() {
   const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
+  const [authors, setAuthors] = useState("");
   const [description, setDescription] = useState("");
   const [pages, setPages] = useState("");
   const [published, setPublished] = useState("");
   const [genre, setGenre] = useState("");
-  const genreList: Array<String> = ["Fiction", "Fantasy", "Horror", "Comic", "Drama", "Crime", "Romance", "Satire"]
+  //const genreList: Array<String> = ["Fiction", "Fantasy", "Horror", "Comic", "Drama", "Crime", "Romance", "Satire"]
 
   const addBook = async () => {
-    if (title !== "" && author !== "" && description !== "" && pages !== "" 
+    if (title !== "" &&  authors != "" && description !== "" && pages !== "" 
       && published !== "" && genre !== "")  {
       try {
         //add book data to collection
+        
+        const timestamp = firebase.firestore.Timestamp.fromDate(new Date(published)); //Convert published to Timestamp
+        const authorArray = authors.split(",");
+
         await setDoc(doc(db, "books", title), {
           title,
-          author,
+          authors: authorArray,
           description,
           pages,
-          published,
+          published: timestamp,
           genre,
         });
         //clear text fields
         setTitle("");
-        setAuthor("");
+        setAuthors("");
         setDescription("");
         setPages("");
         setPublished("");
@@ -60,9 +66,9 @@ function AddBook() {
           />
           <TextField
             label="Author"
-            value={author}
+            value={authors}
             onChange={(e) => {
-              setAuthor(e.target.value);
+            setAuthors(e.target.value);
             }}
           />
           <TextField
