@@ -3,6 +3,7 @@ import { useState } from "react";
 import { auth, db } from "../firebase-config";
 import { addDoc, collection } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import "./CreateUser.css";
 
 function CreateUser() {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ function CreateUser() {
     }
   };
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="CreateUser" onSubmit={handleSubmit}>
       <input
         type="name"
         value={name}
