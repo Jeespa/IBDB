@@ -1,8 +1,9 @@
 .slideshow-container {
   position: absolute;
-  width: 500px;
-  height: 500px;
-  left: 50px;
+  width: 55%;
+  height: 100%;
+  left: 10%;
+  
   border-style: groove;
   border-color: #CAF0F8;
   border-width: 2px;
@@ -20,7 +21,7 @@
   
 .arrows {
   position: absolute;
-  width: 500px;
+  width: 100%;
   height: 60px;
   top: 50%;
 
@@ -29,7 +30,7 @@
 .previous {
   position: absolute;
   top: 50%;
-  left: 50px;
+  left: 5%;
   transform: translate(0, -50%);
   z-index: 1;
   cursor: pointer;
@@ -38,7 +39,7 @@
 .next {
   position: absolute;
   top: 50%;
-  left: 400px;
+  right: 5%;
   transform: translate(0, -50%);
   z-index: 1;
   cursor: pointer;

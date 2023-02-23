@@ -34,6 +34,7 @@ function Slideshow() {
     return (
         <div className="slideshow-container">
             <h2>Slideshow for whatever you would like</h2>
+            Kanskje vise bøker med høyest rating (Topp 5) her?
             {/* bytt ut img til det man vil ha */}
             <img className="slideshow-objects" src={slides[index]} alt="bok" /> 
             <div className="arrows">
