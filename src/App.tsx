@@ -1,13 +1,13 @@
 import React from "react";
-import Home from "./pages/Home"
+import Home from "./pages/HomePage"
 import Navbar from './components/Navbar';
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import AddBook from './pages/AddBook'
+import AddBook from './components/AddBook'
 import LoginPage from "./pages/LoginPage";
 import CreateUserPage from "./pages/CreateUserPage";
 import ProfilePage from "./pages/ProfilePage";
-import Book from "./pages/Book";
+import Book from "./pages/BookPage";
 
 function app() {
 

@@ -1,6 +1,6 @@
 import Slideshow from "../components/Slideshow";
 import { auth } from "../firebase-config";
-import "./Home.css"
+import "./HomePage.css"
 
 function Home() {
   console.log(auth.currentUser);
