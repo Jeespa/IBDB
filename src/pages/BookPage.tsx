@@ -1,37 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { db } from "../firebase-config.js";
-import { collection, query, onSnapshot, doc, deleteDoc, DocumentData} from "firebase/firestore";
-import { CardMedia, Card, Box, Typography, IconButton, Stack } from '@mui/material';
+import { onSnapshot, doc} from "firebase/firestore";
 import '../index.css'
 import { Book } from '../schemas/Book'
-import { Timestamp } from 'firebase/firestore';
 import AddReview from '../components/AddReview';
 import Reviews from '../components/Reviews';
+import AverageRating from '../components/AverageRating';
 
 function BookPage() {
-  const params = useParams();
-  const [bookID, setBookID] = useState(params.bookid);
+  const { isbn } = useParams();
   
-  const errorBook: Book = {
-    "documentID": 'Error', // ISBN
-    "authors": new Array('Error'),
-    "title": 'Error',
-    "description": 'Error',
-    "genre": [],
-    "pages": 0,
-    "published": new Timestamp(0, 0),
-  }
-  
-  const [book, setBook] = useState<Book>(errorBook);
+  const [book, setBook] = useState<Book>();
+  const [bookExists, setBookExists] = useState(true);
 
   const getBook = () => {
-    const id = bookID;
-    if (id !== undefined) {
-      const bookRef = doc(db, 'books', id);
+    if (isbn !== undefined) {
+      const bookRef = doc(db, 'books', isbn);
       onSnapshot(bookRef, (doc) => {
       if (doc.data()){
         setBook(doc.data() as Book);  
+        setBookExists(true);
+        } 
+      else {
+        setBookExists(false);
       }
     })
     }
@@ -39,30 +31,29 @@ function BookPage() {
 
   useEffect(() => {
     getBook();
-  }, []);
+  }, [isbn]);
+
+  if (!bookExists) {
+    return <h1>404 Book Not Found</h1>;
+  }
 
   return (
     <div style={{ marginTop: 10}}>
-          <img 
-              style={{ marginTop: 10 }} 
-              src={"/ibdb.png"}
-          />
-          <h2>
-            { book.title }
-          </h2>
-          <div>
-            Description: { book.description }
-          </div>
-          <div>
-            Author: { book.authors }
-          </div>
-          <div>
-            Number of pages: { book.pages }
-          </div>
-          <AddReview />
-          <Reviews />
+      {book ? (
+        <>
+          <h2>{book.title}</h2>
+          <div>Description: {book.description}</div>
+          <div>Author: {book.authors?.join(', ')}</div>
+          <div>Number of pages: {book.pages}</div>
+        </>
+      ) : (
+        <p>Loading...</p>
+        )}
+      <AverageRating />
+      <AddReview />
+      <Reviews />
     </div>
-  )
+  );
 }
 
 export default BookPage
