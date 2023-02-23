@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+import { TableContainer, Table, Paper, TableHead, TableRow, TableCell, TableBody, Button, Rating, TextField } from "@mui/material"
+
+>>>>>>> cf60758 (Fikset merge conflicts)
 import { useState, useEffect } from "react";
 import { db } from "../firebase-config.js";
 import { collection, query, onSnapshot, DocumentData, where} from "firebase/firestore";
@@ -13,12 +18,16 @@ export default function AverageRating() {
     let tempReviews = 0
 
     const updateAverageRating = () => {
+<<<<<<< HEAD
         if(Number.isNaN(totalRating / totalReviews)) {
             setAverageRating(0);
         } else {
             setAverageRating(totalRating / totalReviews);
         }
         
+=======
+        setAverageRating(totalRating / totalReviews);
+>>>>>>> cf60758 (Fikset merge conflicts)
     }
 
     const getRatings = async () => {
@@ -42,7 +51,11 @@ export default function AverageRating() {
 
     return (
         <div>
+<<<<<<< HEAD
             <h3>{averageRating.toString().substring(0, 4)}/6</h3>
+=======
+            <h3>Gjennomsnittlig Vurdering: {averageRating.toString().substring(0, 4)}</h3>
+>>>>>>> cf60758 (Fikset merge conflicts)
         </div>
     )
 }
