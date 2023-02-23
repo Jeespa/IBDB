@@ -71,3 +71,11 @@ input {
   margin-top: 1%;
   margin-bottom: 1%;
 }
+
+#logout {
+  position: absolute;
+  margin: auto;
+  top: 90px;
+  right: 10px;
+}
+
