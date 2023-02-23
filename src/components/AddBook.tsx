@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { TextField, Button, Stack, Paper, Container } from "@mui/material";
-import Books from "../components/Books";
+import Books from "./Books";
 
 import { db } from "../firebase-config.js";
 import { doc, setDoc } from "firebase/firestore";
-import { auth } from "../firebase-config";
+
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
 
 function AddBook() {
+  const [isbn, setISBN] = useState("");
   const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
+  const [authors, setAuthor] = useState("");
   const [description, setDescription] = useState("");
   const [pages, setPages] = useState("");
   const [published, setPublished] = useState("");
@@ -16,17 +19,18 @@ function AddBook() {
   const genreList: Array<String> = ["Fiction", "Fantasy", "Horror", "Comic", "Drama", "Crime", "Romance", "Satire"]
 
   const addBook = async () => {
-    if (title !== "" && author !== "" && description !== "" && pages !== "" 
+    if (isbn !== "" && title !== "" && authors !== "" && description !== "" && pages !== "" 
       && published !== "" && genre !== "")  {
       try {
         //add book data to collection
-        await setDoc(doc(db, "books", title), {
+        const timestamp = firebase.firestore.Timestamp.fromDate(new Date(published));
+        await setDoc(doc(db, "books", isbn), {
           title,
-          author,
+          authors: authors.split(","),
           description,
           pages,
-          published,
-          genre,
+          published: timestamp,
+          genre: genre.split(","),
         });
         //clear text fields
         setTitle("");
@@ -43,30 +47,35 @@ function AddBook() {
   };
 
   return (
-    <div className="App">
-      <h1>IKKE LEGG TIL BØKER HER: Firestore Library</h1>
-      <p>Det må fikses slik at det matcher med backend først! Søk ødelegges hvis dokumentene blir lagt inn feil. Publiseringsdatoen må være av typen timestamp og det være en array av authors,</p>
+    <div>
+      <h1>Legg til bøker</h1>
       <Container
         component={Paper}
         sx={{ marginBottom: "20px", padding: "20px" }}>
-        <h2 style={{ fontSize: "20px" }}>Add New Book</h2>
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={2.5}>
           <TextField
-            label="Title"
+            label="ISBN"
+            value={isbn}
+            onChange={(e) => {
+              setISBN(e.target.value);
+            }}
+          />
+          <TextField
+            label="Tittel"
             value={title}
             onChange={(e) => {
               setTitle(e.target.value);
             }}
           />
           <TextField
-            label="Author"
-            value={author}
+            label="Forfattere"
+            value={authors}
             onChange={(e) => {
               setAuthor(e.target.value);
             }}
           />
           <TextField
-            label="Description"
+            label="Beskrivelse"
             value={description}
             type="text"
             onChange={(e) => {
@@ -74,7 +83,7 @@ function AddBook() {
             }}
           />
           <TextField
-            label="Pages"
+            label="Sideantall"
             value={pages}
             type="number"
             onChange={(e) => {
@@ -82,7 +91,7 @@ function AddBook() {
             }}
           />
           <TextField
-            label="Genre"
+            label="Sjangere"
             value={genre}
             type="text"
             onChange={(e) => {
@@ -90,7 +99,6 @@ function AddBook() {
             }}
           />
           <TextField
-            label="Published"
             value={published}
             type="date"
             onChange={(e) => {

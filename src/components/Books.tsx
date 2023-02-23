@@ -1,4 +1,5 @@
-import { TableContainer, Table, Paper, TableHead, TableRow, TableCell, TableBody, Button } from "@mui/material"
+import { TableContainer, Table, Paper, TableHead, TableRow, TableCell, TableBody, Button } from "@mui/material";
+import React from "react";
 
 import { useState, useEffect } from "react";
 import { db } from "../firebase-config.js";
@@ -36,15 +37,15 @@ export default function Books() {
     const navigate = useNavigate();
 
     return (
+        <div style={{width:"80%", margin: "0 auto" }}>
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 750 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>No.</TableCell>
-                        <TableCell>Title</TableCell>
-                        <TableCell>Author</TableCell>
-                        <TableCell>Quantity</TableCell>
-                        <TableCell>id</TableCell>
+                        <TableCell>Tittel</TableCell>
+                        <TableCell>Forfattere</TableCell>
+                        <TableCell>Antall sider</TableCell>
+                        <TableCell>ISBN</TableCell>
                         <TableCell>Delete</TableCell>
                     </TableRow>
                 </TableHead>
@@ -54,18 +55,13 @@ export default function Books() {
                             key={index}
                             sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                         >
-                            <TableCell component="th" scope="row">
-                                {index + 1}
-                            </TableCell>
-                            <TableCell>
-                                <button onClick={() => navigate("/book/" + row.id)}>{row.title}</button>
-                            </TableCell>
-                            <TableCell>{row.author}</TableCell>
-                            <TableCell>{row.quantity}</TableCell>
+                            <TableCell component="th" scope="row" onClick={() => navigate("/book/" + row.id)} style={{"text-decoration": "underline", "cursor": "pointer"}}>{row.title}</TableCell>
+                            <TableCell>{row.authors?.join(', ')}</TableCell>
+                            <TableCell>{row.pages}</TableCell>
                             <TableCell>{row.id}</TableCell>
                             <TableCell>
                                 <Button variant="outlined" color="error" onClick={()=>deleteBook(row.id, row.title)}>
-                                    Delete
+                                    Slett
                                 </Button>
                             </TableCell>
                         </TableRow>
@@ -73,5 +69,6 @@ export default function Books() {
                 </TableBody>
             </Table>
         </TableContainer>
+        </div>
     );
 }

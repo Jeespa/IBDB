@@ -2,8 +2,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useState } from "react";
 import Logout from "../components/Logout";
+import AddBook from "../components/AddBook";
 import { auth, db } from "../firebase-config";
-import AddBook from "./AddBook";
 
 function ProfilePage() {
 
