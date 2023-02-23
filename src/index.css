@@ -80,31 +80,3 @@ input {
   margin-top: 1%;
   margin-bottom: 1%;
 }
-/* styling for de øverste elementene på homepage */
-.topPage {
-  position: absolute;
-  width: 100%;
-  height: 50%;
-  background-color: white;
-}
-
-.sideBar {
-  position: absolute;
-  width: 24%;
-  height: 100%;
-  right: 10%;
-  
-  border-style: groove;
-  border-color: #CAF0F8;
-  border-width: 2px;
-}
-
-.midPage {
-  position: absolute; 
-  width: 80%;
-  height: 30%;
-  top: 70%;
-  right: 10%;
-  left: 10%;
-  background-color: #CAF0F8;
-}
