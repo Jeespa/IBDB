@@ -62,7 +62,7 @@ function Review() {
     <Container
         component={Paper}
         sx={{ marginBottom: "20px", padding: "20px"}}>
-        <h2 style={{ fontSize: "20px" }}>Add Review</h2>
+        <h2 style={{ fontSize: "20px" }}>Legg til vurdering</h2>
         <Stack direction="row" spacing={2}>
           <TextField
             label="Review"
@@ -80,7 +80,7 @@ function Review() {
             <MenuItem value={"5"}>5</MenuItem>
             <MenuItem value={"6"}>6</MenuItem>
             </Select>
-        <Button variant="contained" onClick={addReview}>Add Review</Button>
+        <Button variant="contained" onClick={addReview}>Legg til vurdering</Button>
         </Stack>
       </Container>
     </div>

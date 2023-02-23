@@ -6,6 +6,7 @@ import '../index.css'
 import { Book } from '../schemas/Book'
 import AddReview from '../components/AddReview';
 import Reviews from '../components/Reviews';
+import AverageRating from '../components/AverageRating';
 
 function BookPage() {
   const { isbn } = useParams();
@@ -50,6 +51,7 @@ function BookPage() {
       )}
       <AddReview />
       <Reviews />
+      <AverageRating />
     </div>
   );
 }
