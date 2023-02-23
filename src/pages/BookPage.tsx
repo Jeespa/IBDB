@@ -15,11 +15,10 @@ function BookPage() {
   
   const errorBook: Book = {
     "documentID": 'Error', // ISBN
-    "author": 'Error',
+    "authors": new Array('Error'),
     "title": 'Error',
     "description": 'Error',
     "genre": [],
-    "image": 'Error',
     "pages": 0,
     "published": new Timestamp(0, 0),
   }
@@ -55,7 +54,7 @@ function BookPage() {
             Description: { book.description }
           </div>
           <div>
-            Author: { book.author }
+            Author: { book.authors }
           </div>
           <div>
             Number of pages: { book.pages }
