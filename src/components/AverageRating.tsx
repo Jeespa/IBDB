@@ -13,7 +13,12 @@ export default function AverageRating() {
     let tempReviews = 0
 
     const updateAverageRating = () => {
-        setAverageRating(totalRating / totalReviews);
+        if(Number.isNaN(totalRating / totalReviews)) {
+            setAverageRating(0);
+        } else {
+            setAverageRating(totalRating / totalReviews);
+        }
+        
     }
 
     const getRatings = async () => {

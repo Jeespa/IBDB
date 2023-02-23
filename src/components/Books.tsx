@@ -55,7 +55,7 @@ export default function Books() {
                             key={index}
                             sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                         >
-                            <TableCell component="th" scope="row" onClick={() => navigate("/book/" + row.id)} style={{"text-decoration": "underline", "cursor": "pointer"}}>{row.title}</TableCell>
+                            <TableCell component="th" scope="row" onClick={() => navigate("/book/" + row.id)} style={{"textDecoration": "underline", "cursor": "pointer"}}>{row.title}</TableCell>
                             <TableCell>{row.authors?.join(', ')}</TableCell>
                             <TableCell>{row.pages}</TableCell>
                             <TableCell>{row.id}</TableCell>
