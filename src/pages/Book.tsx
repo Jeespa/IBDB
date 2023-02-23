@@ -4,6 +4,8 @@ import { db } from "../firebase-config.js";
 import { onSnapshot, doc} from "firebase/firestore";
 import '../index.css'
 import { Book } from '../schemas/Book'
+import AddReview from '../components/AddReview';
+import Reviews from '../components/Reviews';
 
 function BookPage() {
   const { isbn } = useParams();
@@ -46,6 +48,8 @@ function BookPage() {
       ) : (
         <p>Loading...</p>
       )}
+      <AddReview />
+      <Reviews />
     </div>
   );
 }

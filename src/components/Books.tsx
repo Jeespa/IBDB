@@ -58,7 +58,7 @@ export default function Books() {
                                 {index + 1}
                             </TableCell>
                             <TableCell>
-                                <button onClick={() => navigate("/bookpage/" + row.id)}>{row.title}</button>
+                                <button onClick={() => navigate("/book/" + row.id)}>{row.title}</button>
                             </TableCell>
                             <TableCell>{row.author}</TableCell>
                             <TableCell>{row.quantity}</TableCell>

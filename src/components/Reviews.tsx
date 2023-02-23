@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 
 export default function Reviews() {
 
-    const currentBook = useParams().bookid;
+    const currentBook = useParams().isbn;
 
     //our table will display whatever data is in 'rows'
     const [rows, setRows] = useState<DocumentData[]>([]);

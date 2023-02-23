@@ -10,7 +10,7 @@ function Review() {
   const [ratingValue, setRatingValue] = useState(1);
   const [text, setText] = useState('');
   const [user, setUser] = useState(auth.currentUser?.uid || '');
-  const [isbn, setIsbn] = useState(useParams().bookid);
+  const [isbn, setIsbn] = useState(useParams().isbn);
   const [reviewId, setReviewId] = useState(isbn + user);
   const [published, setPublished] = useState(new Date().toLocaleString() + "");
   //Date.parse(new Date().toLocaleString() + "") / 1000
