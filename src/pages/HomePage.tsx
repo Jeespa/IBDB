@@ -7,23 +7,10 @@ function Home() {
   return (
     <>
     <div className="topPage">
-      <h1>Home</h1>
+      <h1>Månedens beste bøker</h1>
       <div>
         <Slideshow />
       </div>
-      <div className="sideBar">
-        This is a sideBar 
-        <br/>
-        Kanskje man kan vise kommende bøker her?
-        {/* <ComingBooks /> */}
-      </div>
-    </div>
-    <div className="midPage">
-      <div>Some midSection stuff
-        <br />
-        Vise de nyeste bøkene her?
-      </div>
-      {/* <NewBooks /> */}
     </div>
     </>
   )

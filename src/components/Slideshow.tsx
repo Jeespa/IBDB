@@ -4,11 +4,10 @@ import "./Slideshow.css";
 function Slideshow() {
     const slides =[
      //sett inn whatever man vil vise i slideshow
-    '../account.png',
-    '../addbook.png',
-    '../ibdb.png',
-    '../search.png',
-    '../vite.svg',
+    '../grave_secrets.jpeg',
+    '../head_kid.jpg',
+    '../the_amber_spyglass.jpg',
+    '../snømannen.jpg',
     ]
 
     const [index, setIndex] = useState(0);
@@ -33,8 +32,6 @@ function Slideshow() {
     
     return (
         <div className="slideshow-container">
-            <h2>Slideshow for whatever you would like</h2>
-            Kanskje vise bøker med høyest rating (Topp 5) her?
             {/* bytt ut img til det man vil ha */}
             <img className="slideshow-objects" src={slides[index]} alt="bok" /> 
             <div className="arrows">

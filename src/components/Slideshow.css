@@ -1,8 +1,11 @@
 .slideshow-container {
-  position: absolute;
+  position:absolute;
   width: 55%;
   height: 100%;
   left: 10%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   
   border-style: groove;
   border-color: #CAF0F8;
@@ -17,6 +20,8 @@
   right: 0;
   bottom: 0;
   margin: auto;
+  height: 300px;
+  margin-top: 70px;
 }
   
 .arrows {
