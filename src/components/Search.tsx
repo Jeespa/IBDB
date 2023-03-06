@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { db } from '../firebase-config';
 import { collection, query, getDocs } from 'firebase/firestore';
+import { ref, getDownloadURL } from 'firebase/storage';
+
+import { db, storage } from '../firebase-config';
 import { Book } from '../schemas/Book';
 import "./Search.css";
 
@@ -9,6 +11,7 @@ import "./Search.css";
 function Search() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<Book[]>([]);
+  const [searchResultsUrl, setSearchResultsUrl] = useState<string[]>([]);
   const [showResults, setShowResults] = useState(false);
 
   const searchBooksAndAuthors = async () => {
@@ -27,12 +30,25 @@ function Search() {
       return data as Book;
     });
 
-    results = results.filter((post) => {
-      if (post.title.toLowerCase().includes(searchQuery.toLowerCase())) {
-        return post;
-      }
-    });
-
+    results = results
+    .map((book) => {
+      const exactTitleScore = book.title.toLowerCase().startsWith(searchQuery.toLowerCase()) ? 2.1 : 0;
+      const titleScore = book.title.toLowerCase().includes(searchQuery.toLowerCase()) ? 1 : 0;
+      const descriptionScore = book.description?.toLowerCase().includes(searchQuery.toLowerCase()) ? 0.5 : 0;
+      const authorScore = book.authors?.join(",").toLowerCase().includes(searchQuery.toLowerCase()) ? 0.4 : 0;
+      const totalScore = exactTitleScore + titleScore + authorScore + descriptionScore;
+      console.log(book.title, totalScore);
+      return { book, score: totalScore };
+    })
+    .filter((result) => result.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map((result) => result.book);
+    
+    const storageRefs = results.map(result => ref(storage, `books/${result.documentID}.jpg`));
+    const urlPromises = storageRefs.map(storageRef => getDownloadURL(storageRef));
+    const urls = await Promise.all(urlPromises);
+    setSearchResultsUrl(urls);
     setSearchResults(results);
   };
 
@@ -91,9 +107,9 @@ function Search() {
       {showResults && (
         <div className="search-results">
           <ul className="search-list">
-            {searchResults.map((result) => (
+            {searchResults.map((result, index) => (
               <li key={result.documentID} className="search-item" onClick={() => handleSearchResultClick(result.documentID)}>
-                <img src="https://via.placeholder.com/60x80" alt="Search Result Image" className="search-item-image" />
+                <img src={searchResultsUrl[index]} className="search-item-image" />
                 <div className="search-item-details">
                   <h3 className="search-item-title">{result.title}</h3>
                   {result.published && (
