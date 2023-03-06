@@ -37,7 +37,6 @@ function Search() {
       const authorScore = book.authors?.join(",").toLowerCase().includes(searchQuery.toLowerCase()) ? 0.4 : 0;
       const totalScore = exactTitleScore + titleScore + authorScore + descriptionScore;
       let urlPromises = getDownloadURL(ref(storage, `books/${book.documentID}.jpg`))
-      console.log({ book, score: totalScore, urlPromises: urlPromises })
       return { book, score: totalScore, urlPromises: urlPromises };
     })
       .filter((result) => result.score > 0)
@@ -80,7 +79,6 @@ function Search() {
       const natScore = author.nationality?.toLowerCase().includes(searchQuery.toLowerCase()) ? 0.4 : 0;
       totalScore += exactTitleScore + titleScore + natScore;
       let urlPromises = getDownloadURL(ref(storage, `authors/${author.documentID}.jpg`))
-      console.log({ author, score: totalScore, urlPromise: urlPromises })
       return { author, score: totalScore, urlPromise: urlPromises };
     })
       .filter((result) => result.score > 0)

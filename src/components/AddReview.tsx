@@ -9,12 +9,12 @@ import {
   TextField,
 } from "@mui/material";
 import { doc, setDoc } from "firebase/firestore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import { Review } from "../schemas/Review"
 
-function addReview() {
+function Review() {
   const [rating, setRating] = useState("1");
   const [ratingValue, setRatingValue] = useState(1);
   const [text, setText] = useState("");
@@ -26,24 +26,19 @@ function addReview() {
     setRatingValue(parseInt(rating));
   };
 
-  const insertReview = async () => {
+  const addReview = async () => {
     const user = auth.currentUser?.uid;
-    const book = isbn;
-    const documentID = book! + user;
-  
+    const test = (isbn! + user);
     if (ratingValue > 0 && ratingValue < 7) {
       try {
-        const review: Review = {
-          user: user!,
-          book: book!,
-          rating: rating,
-          text: text,
-          published: published
-        };
-  
-        const docRef = doc(db, 'reviews', documentID);
-        await setDoc(docRef, review);
-        console.log("Review added with ID: ", docRef.id);
+        await setDoc(doc(db, "reviews", test), {
+          isbn,
+          user,
+          published,
+          rating,
+          text,
+        });
+        alert("Review has been added!");
       } catch (e) {
         console.error("Error adding review: ", e);
       }
@@ -76,7 +71,7 @@ function addReview() {
             <MenuItem value={"5"}>5</MenuItem>
             <MenuItem value={"6"}>6</MenuItem>
           </Select>
-          <Button variant="contained" onClick={insertReview}>
+          <Button variant="contained" onClick={addReview}>
             Legg til vurdering
           </Button>
         </Stack>
@@ -85,4 +80,4 @@ function addReview() {
   );
 }
 
-export default addReview;
+export default Review;
