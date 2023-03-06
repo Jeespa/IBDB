@@ -34,7 +34,7 @@ export default function Reviews() {
     return (
         <div>
             {rows.map((rows) => (
-                <div key={rows.documentID} className="reviewcomponent" >
+                <div key={rows.id} className="reviewcomponent" >
                     <h2 className="rating">{rows.rating}/6</h2>
                     <h3>{rows.text}</h3>
                 </div>
