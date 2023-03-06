@@ -1,4 +1,4 @@
-import SlideshowLogic from "../components/SlideshowLogic";
+import Slideshow from "../components/Slideshow";
 import { auth } from "../firebase-config";
 
 
@@ -9,7 +9,7 @@ function Home() {
 
 <div> 
 <h1>Home</h1>
-  <SlideshowLogic />
+  <Slideshow />
 </div>
   )
 }

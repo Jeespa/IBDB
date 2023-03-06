@@ -9,7 +9,7 @@ import LoginPage from "./pages/LoginPage";
 import CreateUserPage from "./pages/CreateUserPage";
 import ProfilePage from "./pages/ProfilePage";
 import BookPage from "./pages/BookPage";
-import SlideshowLogic from "./components/SlideshowLogic";
+import Slideshow from "./components/Slideshow";
 
 function app() {
 
