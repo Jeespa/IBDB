@@ -56,6 +56,17 @@ function Slideshow() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+    if (currentIndex === bookDocs.length - 1) {
+    setCurrentIndex(0);
+    } else {
+    setCurrentIndex(currentIndex + 1);
+    }
+    }, 5000);
+    return () => clearInterval(interval);
+    }, [currentIndex, bookDocs]);
+
   const getDisplayBooks = async (
     sortedMap: Map<string, any>
   ): Promise<Book[]> => {
