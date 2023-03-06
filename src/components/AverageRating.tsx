@@ -42,7 +42,7 @@ export default function AverageRating() {
 
     return (
         <div>
-            <h3>Gjennomsnittlig Vurdering: {averageRating.toString().substring(0, 4)}</h3>
+            <h3>{averageRating.toString().substring(0, 4)}/6</h3>
         </div>
     )
 }
