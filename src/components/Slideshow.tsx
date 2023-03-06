@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { db } from "../firebase-config.js";
 import { collection, doc, getDocs, query, where } from "firebase/firestore";
 import { Book } from "../schemas/Book.js";
-import BookForSlideshow from "./BookForSlideshow.js";
+import BookForSlideshow from "./BookForSlideshow";
 
 function Slideshow() {
   const [bookDocs, setBookDocs] = useState<Book[]>([]);
