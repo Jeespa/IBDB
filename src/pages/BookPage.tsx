@@ -16,21 +16,20 @@ function BookPage() {
   
   const [book, setBook] = useState<Book>();
   const [bookExists, setBookExists] = useState(true);
-  const [imageURL, setImageURLState] = useState<string>("https://via.placeholder.com/300x300.png?text=Placeholder+Image");
+  const [imageURL, setImageURLState] = useState<string>();
 
-  const setImageURL = async (book: Book) => {
-    setImageURLState(await getDownloadURL(ref(storage, `books/${book.documentID}.jpg`)))
-    console.log(book.documentID)
+  const setImageURL = async () => {
+    setImageURLState(await getDownloadURL(ref(storage, `books/${isbn}.jpg`)));
   }
   const getBook = () => {
     if (isbn !== undefined) {
       const bookRef = doc(db, 'books', isbn);
       onSnapshot(bookRef, (doc) => {
-      if (doc.data()){
-        let book = doc.data() as Book
-        setBook(book);  
-        setImageURL(book)
-        setBookExists(true);
+        if (doc.data()){
+          const book = doc.data() as Book;
+          setBook(book);  
+          setImageURL();
+          setBookExists(true);
         } 
       else {
         setBookExists(false);
@@ -67,7 +66,7 @@ function BookPage() {
         <>
         <div className="book">
           <div className="bookimg">
-            <img src={imageURL} alt="Search Result Image" style={{ width: "200px", height: "300px" }} />
+            <img src={imageURL} style={{ width: "200px", height: "300px" , borderRadius:"5px"}} />
           </div>
           <div className="bookinfo">
             <h1>{book.title}</h1>
