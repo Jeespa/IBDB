@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { db } from "../firebase-config.js";
 import { collection, query, onSnapshot, DocumentData, where} from "firebase/firestore";
 import { useParams } from "react-router-dom";
+import '../schemas/Review.ts';
+import './Reviews.css'
 
 export default function Reviews() {
 
@@ -30,30 +32,13 @@ export default function Reviews() {
     }, []);
 
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 750 }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Review No.</TableCell>
-                        <TableCell>Rating</TableCell>
-                        <TableCell>Comment</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row, index) => (
-                        <TableRow
-                            key={index}
-                            sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                        >
-                            <TableCell component="th" scope="row">
-                                {index + 1}
-                            </TableCell>
-                            <TableCell>{row.rating}</TableCell>
-                            <TableCell>{row.text}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <div>
+            {rows.map((rows) => (
+                <div key={rows.documentID} className="reviewcomponent" >
+                    <h2 className="rating">{rows.rating}/6</h2>
+                    <h3>{rows.text}</h3>
+                </div>
+            ))}
+        </div>
     );
-}
+};
