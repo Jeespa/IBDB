@@ -1,6 +1,6 @@
 import { Book } from '../schemas/Book'
 
-function BookSlideshow ({ book }: { book: Book }) {
+function BookForSlideshow ({ book }: { book: Book }) {
     return (
       <div style={{ marginTop: 10 }}>
         {/* <img style={{ marginTop: 10 }} src={"/ibdb.png"} /> */}
@@ -11,4 +11,4 @@ function BookSlideshow ({ book }: { book: Book }) {
       </div>
     );
   }
-export default BookSlideshow;
+export default BookForSlideshow;
