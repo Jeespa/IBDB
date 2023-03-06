@@ -63,6 +63,8 @@
   width: 60px;
   height: 80px;
   margin-right: 10px;
+  /* round corners */
+  border-radius: 5px;
 }
 
 .search-item-details {
@@ -98,7 +100,7 @@ p {
   transform: translateY(-50%);
   width: 16px;
   height: 16px;
-  background-image: url("search.png");
+  background-image: url("/search.png");
   background-size: cover;
   cursor: text;
 }
@@ -112,6 +114,6 @@ p {
   transform: translateY(-50%);
   width: 16px;
   height: 16px;
-  background-image: url("search.png");
+  background-image: url("/search.png");
   background-size: cover;
 }
