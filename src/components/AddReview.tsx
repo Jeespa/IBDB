@@ -14,7 +14,7 @@ import { useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import { Review } from "../schemas/Review"
 
-function Review() {
+function addReview() {
   const [rating, setRating] = useState("1");
   const [ratingValue, setRatingValue] = useState(1);
   const [text, setText] = useState("");
@@ -26,19 +26,24 @@ function Review() {
     setRatingValue(parseInt(rating));
   };
 
-  const addReview = async () => {
+  const insertReview = async () => {
     const user = auth.currentUser?.uid;
-    const test = (isbn! + user);
+    const book = isbn;
+    const documentID = book! + user;
+  
     if (ratingValue > 0 && ratingValue < 7) {
       try {
-        await setDoc(doc(db, "reviews", test), {
-          isbn,
-          user,
-          published,
-          rating,
-          text,
-        });
-        alert("Review has been added!");
+        const review: Review = {
+          user: user!,
+          book: book!,
+          rating: rating,
+          text: text,
+          published: published
+        };
+  
+        const docRef = doc(db, 'reviews', documentID);
+        await setDoc(docRef, review);
+        console.log("Review added with ID: ", docRef.id);
       } catch (e) {
         console.error("Error adding review: ", e);
       }
@@ -71,7 +76,7 @@ function Review() {
             <MenuItem value={"5"}>5</MenuItem>
             <MenuItem value={"6"}>6</MenuItem>
           </Select>
-          <Button variant="contained" onClick={addReview}>
+          <Button variant="contained" onClick={insertReview}>
             Legg til vurdering
           </Button>
         </Stack>
@@ -80,4 +85,4 @@ function Review() {
   );
 }
 
-export default Review;
+export default addReview;
