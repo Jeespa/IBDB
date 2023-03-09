@@ -16,7 +16,7 @@ export default function Reviews() {
 
     //getBooks functions to attach a listener and fetch book data
     const getReviews = () => {
-        const q = query(collection(db, "reviews"), where("isbn", "==", currentBook));
+        const q = query(collection(db, "reviews"), where("book", "==", currentBook));
         onSnapshot(q, (querySnapshot) => {
             const rows: DocumentData[] = [];
             querySnapshot.forEach((doc) => {
