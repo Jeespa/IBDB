@@ -1,16 +1,17 @@
 import { Link } from 'react-router-dom';
-import Login from '../components/Login';
 
+import Login from '../components/Login';
+import './LoginPage.css'
 
 function LoginPage() {
     return (
-        <>
-        <h2>Logg inn</h2>
-        <Login />
-        <Link to="/createuser">
-            <p>Har du ikke konto? Opprett en her!</p>
-        </Link>
-        </>
+        <div className='centered-container'>
+            <h2>Logg inn</h2>
+            <Login />
+            <Link to="/createuser">
+                <p>Har du ikke konto? Opprett en her!</p>
+            </Link>
+        </div>
     )
 }
 
