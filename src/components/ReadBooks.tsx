@@ -30,14 +30,15 @@ function ReadBooks(props: Props) {
       const booksRef = collection(db, "books") as CollectionReference<Book>;
       console.log(booksRef);
 
-      const booksQuery = query<Book>(booksRef, where("isbn",'in', readBooks));
+      const booksQuery = query<Book>(booksRef, where("_disbn_",'in', readBooks));
+  
       const booksQuerySnapshot = await getDocs<Book>(booksQuery);
       const booksData = booksQuerySnapshot.docs.map((doc) => doc.data());
-
+      console.log(booksData);
 
       setBooks(booksData);
 
-      console.log(booksData);
+     
     }
 
     getBooks();
