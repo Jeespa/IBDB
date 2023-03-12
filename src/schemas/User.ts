@@ -3,5 +3,5 @@ export interface User {
     admin: boolean;
     email: string;
     username: string;
-    read?: Array<string>;
+    readBooks?: Array<string>;
 }

@@ -4,11 +4,17 @@ import { useState } from "react";
 import Logout from "../components/Logout";
 import AddBook from "../components/AddBook";
 import { auth, db } from "../firebase-config";
+import ReadBooks from "../components/ReadBooks";
+import { Book } from '../schemas/Book';
+
+
 
 function ProfilePage() {
-
+    
     const [userId, setUserId] = useState('0');
     const [isAdmin, setIsAdmin] = useState(false);
+    const [userBooks, setUserBooks] = useState<string[]>([]);
+    
 
     async function CheckIfAdmin(userId: string) {
       const docRef = doc(db, "users", userId);
@@ -22,6 +28,11 @@ function ProfilePage() {
         if (user) {
           setUserId(user.uid);
           setIsAdmin(await CheckIfAdmin(userId));
+          const userDoc = doc(db, "users", user.uid);
+          const userSnap = await getDoc(userDoc);
+          console.log(userId)
+          //const userBooks = userSnap.get("readBooks");
+          //setUserBooks(userBooks);
         }
       });
 
@@ -33,11 +44,14 @@ function ProfilePage() {
       }
     }
 
+    
+
   return (
     <div>
         <h1>Bruker</h1>
         <Logout />
         {showAddBooks()}
+        {userId && <ReadBooks userId={'zVFNJVNEMHqW2kKLdGZQ'} />}
     </div>
   )
 }
