@@ -45,6 +45,10 @@ h1 {
   right: 10px;
 }
 
+#darkMode {
+  background-color: #0096C7;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -79,3 +83,16 @@ input {
   right: 10px;
 }
 
+.dark-mode {
+  color: #f1f1f1;
+  background-color: #222;
+}
+
+.dark-mode a {
+  color: #f1f1f1;
+}
+
+.dark-mode button {
+  background-color: #444;
+  color: #f1f1f1;
+}
