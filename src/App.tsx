@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
 import Home from "./pages/HomePage"
 import AddBook from './pages/AddBookPage'
 import LoginPage from "./pages/LoginPage";
