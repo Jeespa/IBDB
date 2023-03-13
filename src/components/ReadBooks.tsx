@@ -2,7 +2,7 @@ import { CollectionReference, doc, getDoc, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../firebase-config";
 import { Book } from "../schemas/Book";
-import { collection, query, where, QuerySnapshot } from "firebase/firestore";
+import { collection } from "firebase/firestore";
 import "./ReadBooks.css"
 
 interface Props {
@@ -13,41 +13,32 @@ function ReadBooks(props: Props) {
   const [books, setBooks] = useState<Book[]>([]);
 
   useEffect(() => {
-    async function getBooks() {
-      const userDocRef = doc(db, "users", props.userId);
-      const userDoc = await getDoc(userDocRef);
-      const userData = userDoc.data();
-      console.log(`data: ${userData?.readBooks}`);
+      async function getBooks() {
+        const userDocRef = doc(db, "users", props.userId);
+        const userDoc = await getDoc(userDocRef);
+        const userData = userDoc.data() ?? {};
+        const booksRef = collection(db, "books") as CollectionReference<Book>;
+        const booksSnapshot = await getDocs<Book>(booksRef);
+        
+        let booksData = booksSnapshot.docs.map((doc) => {
+          const data = doc.data() as Record<string, any>;
+          data["documentID"] = doc.id;
+          return data as Book;
+        });
 
-      if (userData) {
-        console.log(userData.name);
-      } else {
-        console.log("User not found");
-        return;
-      }
-
-      const readBooks = userData.readBooks || [];
-      console.log(readBooks);
-
-      const booksRef = collection(db, "books") as CollectionReference<Book>;
-
-      const booksQuery = query<Book>(booksRef, where("__name__", 'in', readBooks));
-
-      const booksQuerySnapshot = await getDocs<Book>(booksQuery);
-      const booksData = booksQuerySnapshot.docs.map((doc) => doc.data());
-      console.log(booksData);
-
-      setBooks(booksData);
-
+        const readBooks = userData.readBooks || [];
+        console.log(readBooks);
+        const filteredBooks = booksData.filter((book) => {
+          return readBooks.includes(book.documentID);
+        });
+        console.log(filteredBooks);
+        setBooks(filteredBooks);
 
     }
 
     getBooks();
   }, [props.userId]);
 
-  /* if (books.length === 0) {
-    return <div>No read books found</div>;
-  } */
 
   return (
     <div className="read-books">
@@ -55,8 +46,9 @@ function ReadBooks(props: Props) {
       <ul>
         {books.map((book) => (
           <li key={book.documentID}>
-            <h3>{book.title}</h3>
-            <p>{book.authors?.join(", ")}</p>
+            <a href={`/book/${book.documentID}`}>
+            {book.title}, {book.authors?.join(", ")}
+          </a>
           </li>
         ))}
       </ul>
