@@ -3,7 +3,6 @@ import { auth } from "../firebase-config";
 import "./HomePage.css"
 
 function Home() {
-  console.log(auth.currentUser);
   return (
     <>
     <div className="topPage">

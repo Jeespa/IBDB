@@ -18,7 +18,6 @@ function Slideshow() {
         } else {
             setIndex(index +1)
         }
-        console.log("index: " + index)
     }
 
     const previous = () => {
@@ -27,7 +26,6 @@ function Slideshow() {
         } else {
             setIndex(index -1)
         }
-        console.log("index: " + index)
     }
     
     return (
