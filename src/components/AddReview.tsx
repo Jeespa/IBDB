@@ -15,8 +15,6 @@ function Review() {
   const [published, setPublished] = useState(new Date().toLocaleString() + "");
   //Date.parse(new Date().toLocaleString() + "") / 1000
 
-  //console.log(published);
-
   const handleChange = (event: SelectChangeEvent) => {
     setRating(event.target.value)
     setRatingValue(parseInt(rating));
@@ -24,14 +22,11 @@ function Review() {
 
   function setValues() {
     setUser(auth.currentUser?.uid || '');
-    console.log(user);
     setReviewId(isbn + user);
   }
 
   const addReview = async () => {
     setValues();
-    console.log(rating)
-    console.log(ratingValue);
     if (ratingValue > 0 && ratingValue < 7) {
       try {
         await setDoc(doc(db, "reviews", reviewId), {
