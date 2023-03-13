@@ -20,7 +20,7 @@ function DarkModeToggle() {
 
   return (
     <button id='darkmode' onClick={handleToggleMode}>
-      {isDarkMode ? <img src="/lightmode.png" alt="Toggle Light Mode" /> : <img src="/darkmode.png" alt="Toggle Dark Mode" />}
+      {isDarkMode ? <img id='lightModeIcon' src="/lightmode.png" alt="Toggle Light Mode" /> : <img id='darkModeIcon' src="/darkmode.png" alt="Toggle Dark Mode" />}
     </button>
   );
 }
