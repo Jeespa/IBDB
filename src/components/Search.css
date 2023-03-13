@@ -13,6 +13,7 @@
   background-color: white;
   border-radius: 5px;
   display: block;
+  z-index: 5;
 }
 
 .search-list {
