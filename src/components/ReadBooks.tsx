@@ -27,11 +27,9 @@ function ReadBooks(props: Props) {
         });
 
         const readBooks = userData.readBooks || [];
-        console.log(readBooks);
         const filteredBooks = booksData.filter((book) => {
           return readBooks.includes(book.documentID);
         });
-        console.log(filteredBooks);
         setBooks(filteredBooks);
 
     }

@@ -6,11 +6,11 @@ import AddBook from "../components/AddBook";
 import { auth, db } from "../firebase-config";
 import ReadBooks from "../components/ReadBooks";
 import { Book } from '../schemas/Book';
+import { useParams } from "react-router-dom";
 
 
 
 function ProfilePage() {
-
   const [userId, setUserId] = useState('0');
   const [isAdmin, setIsAdmin] = useState(false);
   const [userBooks, setUserBooks] = useState<string[]>([]);
@@ -27,6 +27,7 @@ function ProfilePage() {
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       setUserId(user.uid);
+      console.log(userId);
       setIsAdmin(await CheckIfAdmin(userId));
       const userDoc = doc(db, "users", user.uid);
       const userSnap = await getDoc(userDoc);
@@ -51,7 +52,7 @@ function ProfilePage() {
       <h1>Bruker</h1>
       <Logout />
       {showAddBooks()}
-      {userId && <ReadBooks userId={'zVFNJVNEMHqW2kKLdGZQ'} />}
+      {userId && <ReadBooks userId={userId} />}
     </div>
   )
 }
