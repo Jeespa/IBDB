@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField } from '@mui/material';
 import Dropzone from 'react-dropzone';
-import { doc, addDoc, collection } from "firebase/firestore";
+import { doc, addDoc, collection, Timestamp } from "firebase/firestore";
 
 import { db, storage } from '../firebase-config';
 import { ref, uploadBytes } from 'firebase/storage';
@@ -21,17 +21,35 @@ const AuthorForm = () => {
     event.preventDefault();
 
     if (!file) {
-      console.log('Please upload a picture');
+      alert('Du må laste opp et bilde av forfatteren!')
+      return;
+    }
+    if (!name) {
+      alert('Du må fylle inn forfatterens navn!')
+      return;
+    }
+    if (!nationality) {
+      alert('Du må fylle inn forfatterens nasjonalitet!')
+      return;
+    }
+    if (!birthdate) {
+      alert('Du må fylle inn forfatterens fødselsdato!')
       return;
     }
 
-    const storageRef = ref(storage, `authors/${file.name}`);
+    const docData: { [key: string]: any } = {
+      name: name,
+      nationality: nationality,
+      birth: Timestamp.fromDate(new Date(birthdate)),
+    };
+    if (deathdate) {
+      docData['death'] = Timestamp.fromDate(new Date(deathdate));
+    }
+    const document = await addDoc(collection(db, "authors"), docData);
+    const docID = document.id;
+
+    const storageRef = ref(storage, `authors/${docID}.jpg`);
     await uploadBytes(storageRef, file);
-
-    await addDoc(collection(db, "authors"), {
-      name: "test",
-    });
-
 
     setFile(null);
     setNationality('');
@@ -97,7 +115,7 @@ const AuthorForm = () => {
             onChange={(event) => setBirthdate(event.target.value)}
           />
           <TextField
-            label="Dødsdato"
+            label="Dødsdato (kun hvis død)"
             type="date"
             variant="outlined"
             InputLabelProps={{ shrink: true }}
