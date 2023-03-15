@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Box, Button, TextField } from '@mui/material';
+import { useState } from 'react';
 import Dropzone from 'react-dropzone';
-import { doc, addDoc, collection, Timestamp } from "firebase/firestore";
+import { Box, Button, TextField } from '@mui/material';
+import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { ref, uploadBytes } from 'firebase/storage';
 
 import { db, storage } from '../firebase-config';
-import { ref, uploadBytes } from 'firebase/storage';
 
 const AuthorForm = () => {
   const [file, setFile] = useState<File | null>(null);
