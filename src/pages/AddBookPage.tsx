@@ -144,7 +144,7 @@ function BookForm() {
   return (
     <div>
       <Box sx={{ width: '70%', margin: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Legg til bøker</h1>
+        <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Legg til bok</h1>
         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'left', width: '100%' }}>
           <Box sx={{
             border: '1px dashed grey',
