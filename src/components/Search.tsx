@@ -37,7 +37,6 @@ function Search() {
       const descriptionScore = book.description?.toLowerCase().includes(searchQuery.toLowerCase()) ? 0.5 : 0;
       const authorScore = book.authors?.join(",").toLowerCase().includes(searchQuery.toLowerCase()) ? 0.4 : 0;
       const totalScore = exactTitleScore + titleScore + authorScore + descriptionScore;
-      console.log(book.title, totalScore);
       return { book, score: totalScore };
     })
     .filter((result) => result.score > 0)
