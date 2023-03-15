@@ -5,6 +5,7 @@ import { addDoc, collection, Timestamp } from "firebase/firestore";
 import { ref, uploadBytes } from 'firebase/storage';
 
 import { db, storage } from '../firebase-config';
+import { Author } from '../schemas/Author';
 
 function AuthorForm() {
   const [file, setFile] = useState<File | null>(null);
@@ -37,24 +38,26 @@ function AuthorForm() {
       return;
     }
 
-    const docData: { [key: string]: any } = {
+    const author: Author = {
       name: name,
       nationality: nationality,
-      birth: Timestamp.fromDate(new Date(birthdate)),
+      birth: Timestamp.fromDate(new Date(birthdate))
     };
     if (deathdate) {
-      docData['death'] = Timestamp.fromDate(new Date(deathdate));
+      author.death = Timestamp.fromDate(new Date(deathdate));
     }
-    const document = await addDoc(collection(db, "authors"), docData);
+    const document = await addDoc(collection(db, "authors"), author);
     const docID = document.id;
 
     const storageRef = ref(storage, `authors/${docID}.jpg`);
     await uploadBytes(storageRef, file);
 
     setFile(null);
+    setName('');
     setNationality('');
     setBirthdate('');
     setDeathdate('');
+    alert('Forfatteren ble lagt til!');
   };
 
   return (
@@ -88,42 +91,54 @@ function AuthorForm() {
           </Box>
           <Box sx={{ flex: 1, order: 2 }}> {/* use flex: 1 to take up remaining space */}
             <form onSubmit={handleSubmit}>
-              <TextField
-                label="Navn"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-              />
-              <TextField
-                label="Nasjonalitet"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                value={nationality}
-                onChange={(event) => setNationality(event.target.value)}
-              />
-              <TextField
-                label="Fødselsdato"
-                type="date"
-                variant="outlined"
-                InputLabelProps={{ shrink: true }}
-                fullWidth
-                margin="normal"
-                value={birthdate}
-                onChange={(event) => setBirthdate(event.target.value)}
-              />
-              <TextField
-                label="Dødsdato (kun hvis død)"
-                type="date"
-                variant="outlined"
-                InputLabelProps={{ shrink: true }}
-                fullWidth
-                margin="normal"
-                value={deathdate}
-                onChange={(event) => setDeathdate(event.target.value)}
-              />
+              <div style={{ display: 'flex', gap: '5px' }}>
+                <TextField
+                  label="Navn"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  style={{ flex: 3 }}
+                />
+                <TextField
+                  label="Nasjonalitet"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  value={nationality}
+                  onChange={(event) => setNationality(event.target.value)}
+                  style={{ flex: 2 }}
+                />
+              </div>
+              <div style={{ display: 'flex', gap: '5px' }}>
+                <TextField
+                  label="Fødselsdato"
+                  InputLabelProps={{ shrink: true }}
+                  type="date"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  value={birthdate}
+                  onChange={(event) => setBirthdate(event.target.value)}
+                  InputProps={{
+                    style: { color: 'gray' },
+                  }}
+                />
+                <TextField
+                  label="Dødsdato (kun hvis død)"
+                  InputLabelProps={{ shrink: true }}
+                  type="date"
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  value={deathdate}
+                  onChange={(event) => setDeathdate(event.target.value)}
+                  InputProps={{
+                    style: { color: 'gray' },
+                  }}
+                />
+              </div>
               <Button type="submit" variant="contained" sx={{ marginTop: '20px', width: '100%', height: '60px' }}>
                 Lagre
               </Button>
