@@ -6,15 +6,14 @@ function DarkModeToggle() {
 
   const handleToggleMode = () => {
     setIsDarkMode(!isDarkMode);
-    console.log("mode switched")
   }
   
   useEffect(() => {
     const body = document.querySelector('body');
     if (isDarkMode) {
-      body.classList.add('dark-mode');
+      body?.classList.add('dark-mode');
     } else {
-      body.classList.remove('dark-mode');
+      body?.classList.remove('dark-mode');
     }
   }, [isDarkMode]);
 

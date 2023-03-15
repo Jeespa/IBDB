@@ -12,17 +12,6 @@ import ProfilePage from "./pages/ProfilePage";
 import BookPage from "./pages/BookPage";
 
 function app() {
-
-  const [darkMode, setDarkMode] = useState(false);
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark-mode");
-    } else {
-      document.documentElement.classList.remove("dark-mode");
-    }
-  }, [darkMode]);
-
   return (
     <Router>
     <div className="pt-20">
