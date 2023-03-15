@@ -1,11 +1,11 @@
-import { onAuthStateChanged } from 'firebase/auth';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {Link} from 'react-router-dom';
+import { onAuthStateChanged } from 'firebase/auth';
+
 import Search from "./Search";
 import "./Navbar.css";
 import { auth } from '../firebase-config';
 import '../index.css'
-import { Button } from '@mui/material';
 import DarkMode from './DarkMode';
 
 function Navbar() {
