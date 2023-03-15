@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 import Navbar from './components/Navbar';
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
-
 import Home from "./pages/HomePage"
 import AddBook from './pages/AddBookPage'
 import AddAuthor from './pages/AddAuthorPage'
@@ -12,6 +12,16 @@ import ProfilePage from "./pages/ProfilePage";
 import BookPage from "./pages/BookPage";
 
 function app() {
+
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark-mode");
+    } else {
+      document.documentElement.classList.remove("dark-mode");
+    }
+  }, [darkMode]);
 
   return (
     <Router>
