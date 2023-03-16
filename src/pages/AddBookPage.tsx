@@ -1,39 +1,46 @@
 import { useEffect, useState } from 'react';
 import Dropzone from 'react-dropzone';
-import { Box, Button, TextField, Select, MenuItem, InputLabel, OutlinedInput, SelectChangeEvent, Checkbox, ListItemText, FormControl, InputAdornment } from '@mui/material';
-import { addDoc, collection, getDocs, query, Timestamp } from "firebase/firestore";
+import { Box, Button, TextField, Select, MenuItem, InputLabel, OutlinedInput, SelectChangeEvent, Checkbox, ListItemText, FormControl } from '@mui/material';
+import { collection, doc, getDocs, query, setDoc, Timestamp } from "firebase/firestore";
 import { ref, uploadBytes } from 'firebase/storage';
 
 import { db, storage } from '../firebase-config';
 import { Author } from '../schemas/Author';
+import { Book } from '../schemas/Book';
 
-const MultipleAuthorsCheckmarks = (authors: Author[]) => {
-  const [selectedPersons, setSelectedPersons] = useState<string[]>([]);
+const MultipleAuthorsCheckmarks = (authors: Author[], selectedAuthors: Author[], setSelectedAuthors: React.Dispatch<React.SetStateAction<Author[]>>) => {
+  const [selectedAuthorIDs, setSelectedAuthorIDs] = useState<string[]>([]);
 
-  const handleChange = (event: SelectChangeEvent<typeof selectedPersons>) => {
-    const {
-      target: { value },
-    } = event;
-    setSelectedPersons(
-      typeof value === 'string' ? value.split(',') : value,
-    );
+  useEffect(() => {
+    setSelectedAuthors(authors.filter(author => selectedAuthorIDs.includes(author.documentID ? author.documentID : "[[[[{[[")));
+  }, [authors, selectedAuthorIDs]);
+
+  useEffect(() => {
+    if (!selectedAuthors) {
+      setSelectedAuthorIDs
+    }
+  })
+
+  const handleChange = (event: SelectChangeEvent<string[]>) => {
+    const selectedAIDs = event.target.value as string[];
+    setSelectedAuthorIDs(selectedAIDs)
   };
 
   return (
-    <FormControl style={{flex: 2}}>
+    <FormControl style={{ flex: 2 }}>
       <InputLabel id="demo-multiple-checkbox-label">Forfatter(e)</InputLabel>
       <Select
         labelId="demo-multiple-checkbox-label"
         id="demo-multiple-checkbox"
         multiple
-        value={selectedPersons}
+        value={selectedAuthorIDs}
         onChange={handleChange}
         input={<OutlinedInput label="Forfatter(e)" />}
-        renderValue={(selected) => selected.join(', ')}
+        renderValue={(selected) => selected.map((authorID) => authors.find(author => author.documentID === authorID)?.name).join(', ')}
       >
         {authors.map((author) => (
-          <MenuItem key={author.name} value={author.name}>
-            <Checkbox checked={selectedPersons.indexOf(author.name) > -1} />
+          <MenuItem key={author.documentID} value={author.documentID}>
+            <Checkbox checked={selectedAuthors.includes(author)} />
             <ListItemText primary={author.name} />
           </MenuItem>
         ))}
@@ -42,6 +49,7 @@ const MultipleAuthorsCheckmarks = (authors: Author[]) => {
   );
 }
 
+
 const MultipleBooksCheckmarks = (genres: string[], selectedGenres: string[], setSelectedGenres: React.Dispatch<React.SetStateAction<string[]>>) => {
   const handleChange = (event: SelectChangeEvent<typeof selectedGenres>) => {
     const {
@@ -49,11 +57,11 @@ const MultipleBooksCheckmarks = (genres: string[], selectedGenres: string[], set
     } = event;
     setSelectedGenres(
       typeof value === 'string' ? value.split(',') : value,
-      );
-    };
+    );
+  };
 
-    return (
-    <FormControl style={{flex: 2}}>
+  return (
+    <FormControl style={{ flex: 2 }}>
       <InputLabel id="demo-multiple-checkbox-label">Sjanger</InputLabel>
       <Select
         labelId="demo-multiple-checkbox-label"
@@ -81,27 +89,30 @@ function BookForm() {
   const [title, setTitle] = useState("");
   const [authors, setAuthors] = useState<Author[]>([]);
   const [selectedAuthors, setSelectedAuthors] = useState<Author[]>([]);
-  const genres = ["Roman", "Drama", "Krim", "Fantasy", "Historie", "Biografi", "Sjangerløs"];
+  const genres = ['Akademisk','Apokalyptisk','Biografi','Eventyr','Fantasy','Filosofi','Historisk','Horror','Komedie','Krim','Reise','Religiøs','Roman','Romantikk','Science Fiction','Spenning','Thriller','Tragedie']
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [description, setDescription] = useState("");
   const [pages, setPages] = useState("");
   const [published, setPublished] = useState("");
-  
+
   const handleDrop = (acceptedFiles: File[]) => {
     setFile(acceptedFiles[0]);
   };
 
-  const getAuthors = async () => {
-    const q = query(collection(db, 'authors'));
-    const qSnapshot = await getDocs(q);
-    const authorResults = qSnapshot.docs.map((doc) => {
-      const data = doc.data() as Record<string, any>;
-      data["documentID"] = doc.id;
-      return data as Author;
-    })
-    setAuthors(authorResults);
-  };
-  getAuthors();
+  useEffect(() => {
+    const getAuthors = async () => {
+      const q = query(collection(db, 'authors'));
+      const qSnapshot = await getDocs(q);
+      const authorResults = qSnapshot.docs.map((doc) => {
+        const data = doc.data() as Record<string, any>;
+        data["documentID"] = doc.id;
+        return data as Author;
+      })
+      setAuthors(authorResults);
+    };
+    getAuthors();
+  }, []);
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -110,32 +121,33 @@ function BookForm() {
       alert('Du må laste opp et bilde av boken!')
       return;
     }
-    if (!isbn || !title || !description || !pages || !published) {
+    if (!isbn || !title || !description || !pages || !published || !selectedAuthors || !selectedGenres) {
       alert('Du må fylle inn alle feltene!')
       return;
     }
 
-    // const docData: { [key: string]: any } = {
-    //   name: name,
-    //   nationality: nationality,
-    //   birth: Timestamp.fromDate(new Date(birthdate)),
-    // };
-    // if (deathdate) {
-    //   docData['death'] = Timestamp.fromDate(new Date(deathdate));
-    // }
-    // const document = await addDoc(collection(db, "books"), docData);
-    // const docID = document.id;
+    const book: Book = {
+      title: title,
+      authors: selectedAuthors.map(author => author.name),
+      authorsID: selectedAuthors.map(author => author.documentID ? author.documentID : ""),
+      description: description,
+      genre: selectedGenres,
+      pages: parseInt(pages),
+      published: Timestamp.fromDate(new Date(published))
+    }
+    const document = setDoc(doc(db, "books", isbn), book);
 
-    // const storageRef = ref(storage, `books/${docID}.jpg`);
-    // await uploadBytes(storageRef, file);
+    const storageRef = ref(storage, `books/${isbn}.jpg`);
+    await uploadBytes(storageRef, file);
 
-    // setTitle("");
-    // setAuthor("");
-    // setDescription("");
-    // setPages("");
-    // setPublished("");
-    // setGenre("");
-    // alert("Boken ble lagt til!");
+    setTitle("");
+    setISBN("");
+    setDescription("");
+    setPages("");
+    setPublished("");
+    setSelectedAuthors([]);
+    setSelectedGenres([])
+    alert("Boken ble lagt til!");
   };
 
   return (
@@ -190,21 +202,21 @@ function BookForm() {
                 />
               </div>
               <div style={{ display: 'flex', gap: '5px' }}>
-              <TextField
-                label="Beskrivelse"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                value={description}
-                onChange={(event) => setDescription(event.target.value)}
-                style={{ marginTop: '0px' }}
-              />
+                <TextField
+                  label="Beskrivelse"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
+                  style={{ marginTop: '0px' }}
+                />
               </div>
               <div style={{ display: 'flex', gap: '5px' }}>
-                {MultipleAuthorsCheckmarks(authors)}
+                {MultipleAuthorsCheckmarks(authors, selectedAuthors, setSelectedAuthors)}
                 {MultipleBooksCheckmarks(genres, selectedGenres, setSelectedGenres)}
               </div>
-              <div style={{ display: 'flex', gap: '5px'}}>
+              <div style={{ display: 'flex', gap: '5px' }}>
                 <TextField
                   label="Utgivelsesdato"
                   InputLabelProps={{ shrink: true }}
