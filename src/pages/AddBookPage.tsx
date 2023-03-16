@@ -103,7 +103,7 @@ const BookFormContent: React.FC<BookFormContentProps> = ({ isLoading, admin }) =
   const [authors, setAuthors] = useState<Author[]>([]);
   const [selectedAuthors, setSelectedAuthors] = useState<Author[]>([]);
   const [selectedAuthorIDs, setSelectedAuthorIDs] = useState<string[]>([]);
-  const genres = ['Akademisk','Apokalyptisk','Biografi','Eventyr','Fantasy','Filosofi','Historisk','Horror','Komedie','Krim','Reise','Religiøs','Roman','Romantikk','Science Fiction','Spenning','Thriller','Tragedie']
+  const genres = ['Akademisk','Apokalyptisk','Biografi','Eventyr','Fantasy','Filosofi','Historisk','Komedie','Krim','Reise','Religiøs','Roman','Romantikk','Science Fiction','Skrekk','Spenning','Thriller','Tragedie']
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [description, setDescription] = useState("");
   const [pages, setPages] = useState("");
@@ -162,6 +162,7 @@ const BookFormContent: React.FC<BookFormContentProps> = ({ isLoading, admin }) =
     setSelectedAuthors([]);
     setSelectedGenres([]);
     setSelectedAuthorIDs([]);
+    setFile(null);
     alert("Boken ble lagt til!");
   };
 
@@ -181,7 +182,7 @@ const BookFormContent: React.FC<BookFormContentProps> = ({ isLoading, admin }) =
             marginRight: '20px', // add some space between the dropzone and input fields
             order: 1, // move the dropzone to the left
           }}>
-            <Dropzone onDrop={handleDrop} multiple={false} maxSize={52428800} accept={{ "images/jpg": [".jpg"] }}>
+            <Dropzone onDrop={handleDrop} multiple={false} maxSize={52428800} accept={{ "images/jpg": [".jpg", ".jpeg"] }}>
               {({ getRootProps, getInputProps }) => (
                 <Box {...getRootProps()}>
                   <input {...getInputProps()} />

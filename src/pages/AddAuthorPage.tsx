@@ -68,6 +68,7 @@ function AuthorForm() {
     setNationality('');
     setBirthdate('');
     setDeathdate('');
+    setFile(null);
     alert('Forfatteren ble lagt til!');
   };
 
@@ -97,7 +98,7 @@ function AuthorForm() {
                     marginRight: '20px', // add some space between the dropzone and input fields
                     order: 1, // move the dropzone to the left
                   }}>
-                    <Dropzone onDrop={handleDrop} multiple={false} maxSize={52428800} accept={{ "images/jpg": [".jpg"] }}>
+                    <Dropzone onDrop={handleDrop} multiple={false} maxSize={52428800} accept={{ "images/jpg": [".jpg", ".jpeg"] }}>
                       {({ getRootProps, getInputProps }) => (
                         <Box {...getRootProps()}>
                           <input {...getInputProps()} />
