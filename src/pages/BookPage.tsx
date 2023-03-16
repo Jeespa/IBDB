@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { onSnapshot, doc, Firestore, updateDoc, arrayUnion, getDoc} from "firebase/firestore";
 import { ref, getDownloadURL } from 'firebase/storage';
-
 import { db, storage, auth } from "../firebase-config";
 import { Book } from '../schemas/Book'
 import AddReview from '../components/AddReview';
@@ -55,69 +54,72 @@ function BookPage() {
 
 
 
-    const handleHasReadBook = () => {
+    const handleHasReadBook = async () => {
+      const currentUser = auth.currentUser;
+      if (!currentUser) {
+        alert("Du må logge inn for å legge til bok i Leste bøker");
+        return;
+      }
+
+      const userDocRef = doc(db, "users", currentUser.uid);
+      const userDocSnapshot = await getDoc(userDocRef);
+      const userData = userDocSnapshot.data();
+      const readBooks = userData?.readBooks || [];
+
       if (hasReadBook) {
         
-        setHasReadBook(false);
-        setButtonName("Legg til i Har lest");
-        setIsOpen(false);
+        const updatedReadBooks = readBooks.filter((isbnInRead: string) => isbnInRead !== isbn);
+        await updateDoc(userDocRef, { read: updatedReadBooks }).then(() => {
+          alert(`${book?.title} ble fjernet fra Leste bøker`);
+          setHasReadBook(false);
+          setButtonName("Legg til i Har lest");
+          setIsOpen(false);
+        })
+          .catch((error) => {
+            alert("Error ved fjerning av bok fra Leste bøker: " + error.message); // Set error message
+          });
       }
       else {
-        const currentUser = auth.currentUser;
-        if (currentUser) {
-          console.log(currentUser.uid)
-          const userDocRef = doc(db, "users", 'zVFNJVNEMHqW2kKLdGZQ');
-          updateDoc(userDocRef, {
-            readBooks: arrayUnion(isbn),
-          }).then(() => {
-            alert(`${book?.title} ble lagt til i Leste bøker`);
-            setHasReadBook(true);
-            setButtonName("Fjern fra Har lest");
-          })
-          .catch((error) => {
-            alert("Error adding book to read list: " + error.message); // Set error message
-          });
-      } else {
-        alert("You must log in to add a book to your read list"); // Set error message
-      }
-        
-
+        updateDoc(userDocRef, {
+          read: arrayUnion(isbn),
+        }).then(() => {
+          alert(`${book?.title} ble lagt til i Leste bøker`);
+          setHasReadBook(true);
+          setButtonName("Fjern fra Har lest");
+        })
+        .catch((error) => {
+          alert("En feil oppstod ved innleggelsen av boken i Leste bøker: " + error.message); // Set error message
+        });
       } 
     }
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log(user.uid)
-      } else {
-      }
+        const userDocRef = doc(db, "users", user.uid);
+        getDoc(userDocRef)
+          .then((doc) => {
+            console.log(isbn);
+            if (doc.exists()) {
+              const data = doc.data();
+              if (data.read.includes(isbn)) {
+                setHasReadBook(true);
+                setButtonName("Fjern fra Har lest");
+              } else {
+                setHasReadBook(false);
+                setButtonName("Legg til i Har lest");
+                setIsOpen(false);
+              }
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+        });
+      }  
     });
   
 
   useEffect(() => {
     getBook();
-    const currentUser = auth.currentUser;
-    
-    if (currentUser) {
-      const userDocRef = doc(db, "users", currentUser.uid);
-      getDoc(userDocRef)
-        .then((doc) => {
-          console.log(isbn);
-          if (doc.exists()) {
-            const data = doc.data();
-            if (data.readBooks.includes(isbn)) {
-              setHasReadBook(true);
-              setButtonName("Fjern fra Har lest");
-            } else {
-              setHasReadBook(false);
-              setButtonName("Legg til i Har lest");
-              setIsOpen(false);
-            }
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      }
   }, [isbn]);
 
   if (!bookExists) {
@@ -135,7 +137,10 @@ function BookPage() {
             <img src={imageURL} style={{ width: "200px", height: "300px" , borderRadius:"5px"}} />
           </div>
           <div className="bookinfo">
-            <h1>{book.title} {hasReadBook ? <img src="/check_cricle.png" /> : null}</h1>
+          <h1>
+            {book.title} {hasReadBook ? <img src="/check_circle.png" alt="check circle" /> : null}
+          </h1>
+
             <div className="author">{book.authors?.join(', ')}</div>
             <AverageRating />
             <div>{book.description}</div>

@@ -14,7 +14,7 @@ import { useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import { Review } from "../schemas/Review"
 
-function Review() {
+function AddReview() {
   const [rating, setRating] = useState("1");
   const [ratingValue, setRatingValue] = useState(1);
   const [text, setText] = useState("");
@@ -80,4 +80,4 @@ function Review() {
   );
 }
 
-export default Review;
+export default AddReview;
