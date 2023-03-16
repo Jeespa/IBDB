@@ -12,3 +12,4 @@ set -e
 # essential in order for firebase functions to work as intended
 (npm install firebase-tools)
 (sudo npm install --save react-dropzone)
+(npm install react-loader-spinner)

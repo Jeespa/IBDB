@@ -3,10 +3,12 @@ import Dropzone from 'react-dropzone';
 import { Box, Button, TextField, Select, MenuItem, InputLabel, OutlinedInput, SelectChangeEvent, Checkbox, ListItemText, FormControl } from '@mui/material';
 import { collection, doc, getDocs, query, setDoc, Timestamp } from "firebase/firestore";
 import { ref, uploadBytes } from 'firebase/storage';
+import { FidgetSpinner } from 'react-loader-spinner';
 
 import { db, storage } from '../firebase-config';
 import { Author } from '../schemas/Author';
 import { Book } from '../schemas/Book';
+import isAdmin from '../utils/admin';
 
 const MultipleAuthorsCheckmarks = (authors: Author[], selectedAuthors: Author[], setSelectedAuthors: React.Dispatch<React.SetStateAction<Author[]>>, selectedAuthorIDs: string[], setSelectedAuthorIDs: React.Dispatch<React.SetStateAction<string[]>>) => {
   useEffect(() => {
@@ -75,7 +77,26 @@ const MultipleBooksCheckmarks = (genres: string[], selectedGenres: string[], set
   );
 }
 
-function BookForm() {
+interface BookFormContentProps {
+  isLoading: boolean;
+  admin: boolean;
+}
+
+const BookFormContent: React.FC<BookFormContentProps> = ({ isLoading, admin }) => {
+
+  if (isLoading) {
+    return (
+      <FidgetSpinner
+        backgroundColor="#0096C7"
+        ballColors={["0", "0", "0"]}
+      />
+    );
+  }
+
+  if (!admin) {
+    return (<h1>Adgang ikke tillatt.</h1>)
+  }
+
   const [file, setFile] = useState<File | null>(null);
   const [isbn, setISBN] = useState("");
   const [title, setTitle] = useState("");
@@ -128,7 +149,7 @@ function BookForm() {
       pages: parseInt(pages),
       published: Timestamp.fromDate(new Date(published))
     }
-    const document = setDoc(doc(db, "books", isbn), book);
+    setDoc(doc(db, "books", isbn), book);
 
     const storageRef = ref(storage, `books/${isbn}.jpg`);
     await uploadBytes(storageRef, file);
@@ -245,6 +266,20 @@ function BookForm() {
       </Box>
     </div>
   );
-};
+}
+
+const BookForm: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [admin, setAdmin] = useState(false);
+
+  useEffect(() => {
+    isAdmin().then((isAdmin) => {
+      setAdmin(isAdmin);
+      setIsLoading(false);
+    });
+  }, []);
+
+  return <BookFormContent isLoading={isLoading} admin={admin} />;
+}
 
 export default BookForm;
