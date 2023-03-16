@@ -42,19 +42,17 @@ const MultipleAuthorsCheckmarks = (authors: Author[]) => {
   );
 }
 
-const MultipleBooksCheckmarks = (genres: string[]) => {
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-
+const MultipleBooksCheckmarks = (genres: string[], selectedGenres: string[], setSelectedGenres: React.Dispatch<React.SetStateAction<string[]>>) => {
   const handleChange = (event: SelectChangeEvent<typeof selectedGenres>) => {
     const {
       target: { value },
     } = event;
     setSelectedGenres(
       typeof value === 'string' ? value.split(',') : value,
-    );
-  };
+      );
+    };
 
-  return (
+    return (
     <FormControl style={{flex: 2}}>
       <InputLabel id="demo-multiple-checkbox-label">Sjanger</InputLabel>
       <Select
@@ -82,29 +80,28 @@ function BookForm() {
   const [isbn, setISBN] = useState("");
   const [title, setTitle] = useState("");
   const [authors, setAuthors] = useState<Author[]>([]);
-  const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
+  const [selectedAuthors, setSelectedAuthors] = useState<Author[]>([]);
   const genres = ["Roman", "Drama", "Krim", "Fantasy", "Historie", "Biografi", "Sjangerløs"];
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [description, setDescription] = useState("");
   const [pages, setPages] = useState("");
   const [published, setPublished] = useState("");
-
+  
   const handleDrop = (acceptedFiles: File[]) => {
     setFile(acceptedFiles[0]);
   };
 
-  useEffect(() => {
-    const getAuthors = async () => {
-      const q = query(collection(db, 'authors'));
-      const qSnapshot = await getDocs(q);
-      const authorResults = qSnapshot.docs.map((doc) => {
-        const data = doc.data() as Record<string, any>;
-        data["documentID"] = doc.id;
-        return data as Author;
-      })
-      setAuthors(authorResults);
-    };
-    getAuthors();
-  }, []);
+  const getAuthors = async () => {
+    const q = query(collection(db, 'authors'));
+    const qSnapshot = await getDocs(q);
+    const authorResults = qSnapshot.docs.map((doc) => {
+      const data = doc.data() as Record<string, any>;
+      data["documentID"] = doc.id;
+      return data as Author;
+    })
+    setAuthors(authorResults);
+  };
+  getAuthors();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -205,7 +202,7 @@ function BookForm() {
               </div>
               <div style={{ display: 'flex', gap: '5px' }}>
                 {MultipleAuthorsCheckmarks(authors)}
-                {MultipleBooksCheckmarks(genres)}
+                {MultipleBooksCheckmarks(genres, selectedGenres, setSelectedGenres)}
               </div>
               <div style={{ display: 'flex', gap: '5px'}}>
                 <TextField
