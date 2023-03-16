@@ -1,28 +1,13 @@
-
-.wishlist-container {
-    position:absolute;
-    width: 55%;
-    height: 100%;
-    left: 10%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    
-    border-style: groove;
-    border-color: #CAF0F8;
-    border-width: 2px;
-      
-}
-
+/* HER */
 .list-container{
     position: absolute;
     width: 20%;
-    height: 80%;
     left: 40%;
     display: block;
     align-items: baseline;
     justify-content: 100%;
     background-color: #CAF0F8;
+    z-index: 2;
 }
 
 
