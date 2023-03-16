@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { auth, db } from "../firebase-config";
-import { addDoc, collection } from "firebase/firestore";
+import { collection, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import "./CreateUser.css";
 
@@ -31,7 +31,7 @@ function CreateUser() {
         .then(async (data) => {
           // setUserId(data.user.uid); Denne gjorde at bruker ble lagt til i Authentication lista i Firebase, men ikke i db.
           try {
-            await addDoc(collection(db, "users", userid), {
+            await setDoc(collection(db, "users", userid), {
               name,
               email,
               password,
