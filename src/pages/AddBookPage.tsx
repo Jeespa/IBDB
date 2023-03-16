@@ -8,18 +8,10 @@ import { db, storage } from '../firebase-config';
 import { Author } from '../schemas/Author';
 import { Book } from '../schemas/Book';
 
-const MultipleAuthorsCheckmarks = (authors: Author[], selectedAuthors: Author[], setSelectedAuthors: React.Dispatch<React.SetStateAction<Author[]>>) => {
-  const [selectedAuthorIDs, setSelectedAuthorIDs] = useState<string[]>([]);
-
+const MultipleAuthorsCheckmarks = (authors: Author[], selectedAuthors: Author[], setSelectedAuthors: React.Dispatch<React.SetStateAction<Author[]>>, selectedAuthorIDs: string[], setSelectedAuthorIDs: React.Dispatch<React.SetStateAction<string[]>>) => {
   useEffect(() => {
     setSelectedAuthors(authors.filter(author => selectedAuthorIDs.includes(author.documentID ? author.documentID : "[[[[{[[")));
   }, [authors, selectedAuthorIDs]);
-
-  useEffect(() => {
-    if (!selectedAuthors) {
-      setSelectedAuthorIDs
-    }
-  })
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
     const selectedAIDs = event.target.value as string[];
@@ -89,6 +81,7 @@ function BookForm() {
   const [title, setTitle] = useState("");
   const [authors, setAuthors] = useState<Author[]>([]);
   const [selectedAuthors, setSelectedAuthors] = useState<Author[]>([]);
+  const [selectedAuthorIDs, setSelectedAuthorIDs] = useState<string[]>([]);
   const genres = ['Akademisk','Apokalyptisk','Biografi','Eventyr','Fantasy','Filosofi','Historisk','Horror','Komedie','Krim','Reise','Religiøs','Roman','Romantikk','Science Fiction','Spenning','Thriller','Tragedie']
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [description, setDescription] = useState("");
@@ -146,7 +139,8 @@ function BookForm() {
     setPages("");
     setPublished("");
     setSelectedAuthors([]);
-    setSelectedGenres([])
+    setSelectedGenres([]);
+    setSelectedAuthorIDs([]);
     alert("Boken ble lagt til!");
   };
 
@@ -213,7 +207,7 @@ function BookForm() {
                 />
               </div>
               <div style={{ display: 'flex', gap: '5px' }}>
-                {MultipleAuthorsCheckmarks(authors, selectedAuthors, setSelectedAuthors)}
+                {MultipleAuthorsCheckmarks(authors, selectedAuthors, setSelectedAuthors, selectedAuthorIDs, setSelectedAuthorIDs)}
                 {MultipleBooksCheckmarks(genres, selectedGenres, setSelectedGenres)}
               </div>
               <div style={{ display: 'flex', gap: '5px' }}>
