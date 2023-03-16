@@ -1,8 +1,9 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import { auth, db } from "../firebase-config";
-import { collection, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+
+import { auth, db } from "../firebase-config";
 import "./CreateUser.css";
 
 function CreateUser() {
@@ -12,7 +13,10 @@ function CreateUser() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [admin, setAdmin] = useState(false);
-  let readBooks: Array<String> = [];
+  const read: Array<string> = [];
+  const wish: Array<string> = [];
+  const verified: boolean = false;
+
 
   function clearFields() {
     setUserId("");
@@ -20,7 +24,6 @@ function CreateUser() {
     setEmail("");
     setPassword("");
     setAdmin(false);
-    readBooks = [];
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -31,12 +34,13 @@ function CreateUser() {
         .then(async (data) => {
           // setUserId(data.user.uid); Denne gjorde at bruker ble lagt til i Authentication lista i Firebase, men ikke i db.
           try {
-            await setDoc(collection(db, "users", userid), {
+            await setDoc(doc(db, "users", data.user.uid), {
               name,
               email,
-              password,
               admin,
-              readBooks,
+              read,
+              wish,
+              verified
             });
             //clear textfields after pressing OK
             clearFields();
