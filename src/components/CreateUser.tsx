@@ -34,7 +34,8 @@ function CreateUser() {
         .then(async (data) => {
           // setUserId(data.user.uid); Denne gjorde at bruker ble lagt til i Authentication lista i Firebase, men ikke i db.
           try {
-            await setDoc(doc(db, "users", userid), {
+            console.log(data.user.uid)
+            await setDoc(doc(db, "users", data.user.uid), {
               name,
               email,
               admin,
