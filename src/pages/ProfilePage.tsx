@@ -22,7 +22,6 @@ function ProfilePage() {
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-      console.log(user.uid)
       setUserId(user.uid);
       setIsAdmin(await CheckIfAdmin(userId));
     }
