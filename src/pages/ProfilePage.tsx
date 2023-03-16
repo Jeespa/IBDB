@@ -4,6 +4,7 @@ import { useState } from "react";
 import Logout from "../components/Logout";
 import AddBook from "../components/AddBook";
 import { auth, db } from "../firebase-config";
+import WishList from "../components/WishList";
 
 function ProfilePage() {
 
@@ -37,7 +38,9 @@ function ProfilePage() {
     <div>
         <h1>Bruker</h1>
         <Logout />
+        <WishList userId={""} />
         {showAddBooks()}
+        
     </div>
   )
 }
