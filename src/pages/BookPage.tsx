@@ -40,13 +40,16 @@ function BookPage() {
 
 
     const [isOpen, setIsOpen] = useState(false);
+    const [isButtonVisible, setIsButtonVisible] = useState(true);
   
     const handleOpenModal = () => {
       setIsOpen(true);
+      setIsButtonVisible(false);
     };
   
     const handleCloseModal = () => {
       setIsOpen(false);
+      setIsButtonVisible(true);
     };
 
 
@@ -77,7 +80,8 @@ function BookPage() {
           </div>
         </div>
         <div className="reviewmodal">
-        <button onClick={handleOpenModal}> Legg til vurdering</button>
+
+        {isButtonVisible && <button onClick={handleOpenModal}> Legg til vurdering</button>}
           {isOpen && (
             <div>
               <AddReview />

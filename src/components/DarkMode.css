@@ -73,6 +73,8 @@ button:focus-visible #darkmode {
 /* home */
 .dark-mode .slideshow-container {
     background-color: #383838;
+    border-color: #212121;
+    border-style: groove;
 }
 
 .dark-mode .search-results {
