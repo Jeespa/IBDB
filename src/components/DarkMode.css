@@ -136,3 +136,10 @@ button:focus-visible #darkmode {
 #darkModeIcon {
     padding: 0;
 }
+
+#closeBtn {
+    justify-content: center;
+    align-items: center;
+    margin-block-start: 1.83em;
+    margin-block-end: -0.17em;
+}

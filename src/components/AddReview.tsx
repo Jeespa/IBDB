@@ -85,8 +85,9 @@ const addReview: React.FC<AddReviewProps> = ({ handleCloseModal }) => {
             Legg til vurdering
           </Button>
         </Stack>
+        <button id="closeBtn" onClick={handleCloseModal}>Lukk</button>
       </Container>
-      <button onClick={handleCloseModal}>Lukk</button>
+      
     </div>
   );
 }
