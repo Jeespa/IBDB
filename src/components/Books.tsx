@@ -60,7 +60,7 @@ export default function Books() {
                             <TableCell>{row.pages}</TableCell>
                             <TableCell>{row.id}</TableCell>
                             <TableCell>
-                                <Button variant="outlined" color="error" onClick={()=>deleteBook(row.id, row.title)}>
+                                <Button id="delete" variant="outlined" color="error" onClick={()=>deleteBook(row.id, row.title)}>
                                     Slett
                                 </Button>
                             </TableCell>

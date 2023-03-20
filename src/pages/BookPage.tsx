@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import { onSnapshot, doc} from "firebase/firestore";
+import { onSnapshot, doc } from "firebase/firestore";
 import { ref, getDownloadURL } from 'firebase/storage';
+import { FidgetSpinner } from 'react-loader-spinner';
 
 import { db, storage } from "../firebase-config";
 import { Book } from '../schemas/Book'
@@ -13,7 +14,7 @@ import './BookPage.css'
 
 function BookPage() {
   const { isbn } = useParams();
-  
+
   const [book, setBook] = useState<Book>();
   const [bookExists, setBookExists] = useState(true);
   const [imageURL, setImageURLState] = useState<string>();
@@ -25,29 +26,29 @@ function BookPage() {
     if (isbn !== undefined) {
       const bookRef = doc(db, 'books', isbn);
       onSnapshot(bookRef, (doc) => {
-        if (doc.data()){
+        if (doc.data()) {
           const book = doc.data() as Book;
-          setBook(book);  
+          setBook(book);
           setImageURL();
           setBookExists(true);
-        } 
-      else {
-        setBookExists(false);
-      }
-    })
+        }
+        else {
+          setBookExists(false);
+        }
+      })
     }
   };
 
 
-    const [isOpen, setIsOpen] = useState(false);
-  
-    const handleOpenModal = () => {
-      setIsOpen(true);
-    };
-  
-    const handleCloseModal = () => {
-      setIsOpen(false);
-    };
+  const [isAddReviewVisible, setIsAddReviewVisible] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsAddReviewVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsAddReviewVisible(false);
+  };
 
 
   useEffect(() => {
@@ -58,38 +59,37 @@ function BookPage() {
     return <h1>404 Book Not Found</h1>;
   }
 
-  
+
 
   return (
     <div className="page">
       {book ? (
         <>
-        <div className="book">
-          <div className="bookimg">
-            <img src={imageURL} style={{ width: "200px", height: "300px" , borderRadius:"5px"}} />
-          </div>
-          <div className="bookinfo">
-            <h1>{book.title}</h1>
-            <div className="author">{book.authors?.join(', ')}</div>
-            <AverageRating />
-            <div>{book.description}</div>
-            <div>Antall sider: {book.pages}</div>
-          </div>
-        </div>
-        <div className="reviewmodal">
-        <button onClick={handleOpenModal}> Legg til vurdering</button>
-          {isOpen && (
-            <div>
-              <AddReview />
-              <button onClick={handleCloseModal}> Lukk </button>
+          <div className="book">
+            <div className="bookimg">
+              <img src={imageURL} style={{ width: "200px", height: "300px", borderRadius: "5px" }} />
             </div>
-          )}
-        </div>
-      <Reviews />
+            <div className="bookinfo">
+              <h1>{book.title}</h1>
+              <div className="author">{book.authors?.join(', ')}</div>
+              <AverageRating />
+              <div>{book.description}</div>
+              <div>Antall sider: {book.pages}</div>
+            </div>
+          </div>
+          <div className="reviewmodal">
+
+            {!isAddReviewVisible && <button onClick={handleOpenModal}>Legg til vurdering</button>}
+            {isAddReviewVisible && <AddReview handleCloseModal={handleCloseModal} />}
+          </div>
+          <Reviews />
         </>
       ) : (
-        <p>Loading...</p>
-        )}
+          <FidgetSpinner
+            backgroundColor="#0096C7"
+            ballColors={["0", "0", "0"]}
+          />
+      )}
     </div>
   );
 }

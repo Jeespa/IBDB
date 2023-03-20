@@ -6,8 +6,7 @@ import "./Logout.css";
 function Logout() {
 
     const navigate = useNavigate();
-    const handleLogout = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+    const handleLogout = () => {
         signOut(auth).then( () => {
           alert("Logged out");
           navigate('/');
@@ -15,9 +14,7 @@ function Logout() {
     };
 
     return (
-    <form className="Logout" onSubmit={handleLogout}>
-        <button type="submit">Logg ut</button>
-    </form>
+        <button type="submit" onClick={handleLogout}>Logg ut</button>
     )
 }
 
