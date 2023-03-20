@@ -14,7 +14,12 @@ import { useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import { Review } from "../schemas/Review"
 
-function addReview() {
+
+interface AddReviewProps {
+  handleCloseModal: () => void;
+}
+
+const addReview: React.FC<AddReviewProps> = ({ handleCloseModal }) => {
   const [rating, setRating] = useState("1");
   const [ratingValue, setRatingValue] = useState(1);
   const [text, setText] = useState("");
@@ -30,7 +35,7 @@ function addReview() {
     const user = auth.currentUser?.uid;
     const book = isbn;
     const documentID = book! + user;
-  
+
     if (ratingValue > 0 && ratingValue < 7) {
       try {
         const review: Review = {
@@ -40,10 +45,9 @@ function addReview() {
           text: text,
           published: published
         };
-  
+
         const docRef = doc(db, 'reviews', documentID);
         await setDoc(docRef, review);
-        console.log("Review added with ID: ", docRef.id);
       } catch (e) {
         console.error("Error adding review: ", e);
       }
@@ -80,7 +84,9 @@ function addReview() {
             Legg til vurdering
           </Button>
         </Stack>
+        <button id="closeBtn" onClick={handleCloseModal}>Lukk</button>
       </Container>
+      
     </div>
   );
 }
