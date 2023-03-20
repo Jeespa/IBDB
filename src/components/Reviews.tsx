@@ -26,6 +26,30 @@ export default function Reviews() {
         });
     };
 
+    function formatDate(dateString: string): string {
+        const dateParts = dateString.split(".");
+        const day = parseInt(dateParts[0]);
+        const month = parseInt(dateParts[1]);
+        const year = parseInt(dateParts[2]);
+        
+        const monthNames = [
+          "Januar",
+          "Februar",
+          "Mars",
+          "April",
+          "Mai",
+          "Juni",
+          "Juli",
+          "August",
+          "September",
+          "Oktober",
+          "November",
+          "Desember"
+        ];
+        
+        return `${day}. ${monthNames[month - 1]}, ${year}`;
+      }
+
     //call getBooks when app is loaded
     useEffect(() => {
         getReviews();
@@ -36,7 +60,13 @@ export default function Reviews() {
             {rows.map((rows) => (
                 <div key={rows.id} className="reviewcomponent" >
                     <h2 className="rating">{rows.rating}/6</h2>
-                    <h3>{rows.text}</h3>
+                        <div className = "reviewcomponent">
+                            <div className="userinfo">
+                                <p style={{textAlign: 'left'}}> {formatDate(rows.published)} </p>
+                                <p style={{textAlign: 'right'}}> Skrevet av </p>
+                            </div>
+                                <h3>{rows.text}</h3>
+                        </div>
                 </div>
             ))}
         </div>
