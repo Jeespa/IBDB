@@ -56,9 +56,11 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -79,3 +81,43 @@ input {
   right: 10px;
 }
 
+.dark-mode {
+  color: #ffffff;
+  background-color: #323232;
+}
+
+.dark-mode form {
+  background-color: #383838;
+}
+
+
+.dark-mode input {
+ background-color: #575757;
+ color: #ffffff;
+}
+
+.dark-mode a {
+  color: #ffffff;
+}
+
+/* .dark-mode button {
+  background-color: #444;
+  color: #ffffff;
+} */
+
+#darkmode {
+  background-color: #0096C7;
+  border-style: none;
+  padding: 0%;
+  border-style: none;
+}
+
+button:active #darkmode {
+  border-style: none;
+  border-width: 0em;
+}
+
+button:focus,
+button:focus-visible #darkmode {
+  outline: 0px
+}
