@@ -46,6 +46,7 @@
 .reviewmodal button {
     margin-top: 50px;
     background-color: #d1e4f8;
+    margin-left: 10px;
 }
 
 .reviewmodal button:hover {

@@ -31,7 +31,7 @@ export default function Books() {
 
     const deleteBook = async (id: string, title: string) =>{
         await deleteDoc(doc(db, "books", id));
-        alert(title +" has been successfully deleted.")
+        alert(title +" har blitt slettet.")
     }
 
     const navigate = useNavigate();
@@ -60,7 +60,7 @@ export default function Books() {
                             <TableCell>{row.pages}</TableCell>
                             <TableCell>{row.id}</TableCell>
                             <TableCell>
-                                <Button variant="outlined" color="error" onClick={()=>deleteBook(row.id, row.title)}>
+                                <Button id="delete" variant="outlined" color="error" onClick={()=>deleteBook(row.id, row.title)}>
                                     Slett
                                 </Button>
                             </TableCell>

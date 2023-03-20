@@ -8,22 +8,19 @@ import "./CreateUser.css";
 
 function CreateUser() {
   const navigate = useNavigate();
-  const [userid, setUserId] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [admin, setAdmin] = useState(false);
   const read: Array<string> = [];
   const wish: Array<string> = [];
   const verified: boolean = false;
+  const admin: boolean = false;
 
 
   function clearFields() {
-    setUserId("");
     setName("");
     setEmail("");
     setPassword("");
-    setAdmin(false);
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -34,7 +31,6 @@ function CreateUser() {
         .then(async (data) => {
           // setUserId(data.user.uid); Denne gjorde at bruker ble lagt til i Authentication lista i Firebase, men ikke i db.
           try {
-            console.log(data.user.uid)
             await setDoc(doc(db, "users", data.user.uid), {
               name,
               email,
@@ -72,7 +68,7 @@ function CreateUser() {
         type="email"
         value={email}
         onChange={e => setEmail(e.target.value)}
-        placeholder="Epost"
+        placeholder="Email"
       />
       <input
         type="password"

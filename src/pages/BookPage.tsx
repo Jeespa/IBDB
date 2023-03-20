@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
-import { onSnapshot, doc, Firestore, updateDoc, arrayUnion, getDoc} from "firebase/firestore";
-import { ref, getDownloadURL } from 'firebase/storage';
-import { db, storage, auth } from "../firebase-config";
-import { Book } from '../schemas/Book'
-import AddReview from '../components/AddReview';
-import Reviews from '../components/Reviews';
-import AverageRating from '../components/AverageRating';
-import '../index.css'
-import './BookPage.css'
-import { onAuthStateChanged } from 'firebase/auth';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { onSnapshot, doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { ref, getDownloadURL } from "firebase/storage";
+import { FidgetSpinner } from "react-loader-spinner";
+
+import { auth, db, storage } from "../firebase-config";
+import { Book } from "../schemas/Book";
+import AddReview from "../components/AddReview";
+import Reviews from "../components/Reviews";
+import AverageRating from "../components/AverageRating";
+import "../index.css";
+import "./BookPage.css";
+import { onAuthStateChanged } from "firebase/auth";
 
 function BookPage() {
   const { isbn } = useParams();
-  
+
   const [book, setBook] = useState<Book>();
   const [bookExists, setBookExists] = useState(true);
   const [imageURL, setImageURLState] = useState<string>();
@@ -25,7 +27,7 @@ function BookPage() {
   }
   const getBook = () => {
     if (isbn !== undefined) {
-      const bookRef = doc(db, 'books', isbn);
+      const bookRef = doc(db, "books", isbn);
       onSnapshot(bookRef, (doc) => {
         if (doc.data()){
           const book = doc.data() as Book;
@@ -70,20 +72,18 @@ function BookPage() {
         
         const updatedReadBooks = readBooks.filter((isbnInRead: string) => isbnInRead !== isbn);
         await updateDoc(userDocRef, { read: updatedReadBooks }).then(() => {
-          alert(`${book?.title} ble fjernet fra Leste bøker`);
           setHasReadBook(false);
           setButtonName("Legg til i Har lest");
           setIsOpen(false);
         })
           .catch((error) => {
-            alert("Error ved fjerning av bok fra Leste bøker: " + error.message); // Set error message
+            alert("En feil oppstod ved fjerning av bok fra Leste bøker: " + error.message); // Set error message
           });
       }
       else {
         updateDoc(userDocRef, {
           read: arrayUnion(isbn),
         }).then(() => {
-          alert(`${book?.title} ble lagt til i Leste bøker`);
           setHasReadBook(true);
           setButtonName("Fjern fra Har lest");
         })
@@ -123,7 +123,7 @@ function BookPage() {
   }, [isbn]);
 
   if (!bookExists) {
-    return <h1>404 Book Not Found</h1>;
+    return <h1>404 Bok ikke funnet</h1>;
   }
 
   
@@ -160,10 +160,13 @@ function BookPage() {
       <Reviews />
         </>
       ) : (
-        <p>Loading...</p>
+        <FidgetSpinner
+        backgroundColor="#0096C7"
+        ballColors={["0", "0", "0"]}
+      />
         )}
     </div>
   );
 }
 
-export default BookPage
+export default BookPage;

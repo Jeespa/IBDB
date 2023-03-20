@@ -1,60 +1,52 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+import isAdmin from '../utils/admin'
 import Logout from "../components/Logout";
-import AddBook from "../components/AddBook";
-import { auth, db } from "../firebase-config";
-import ReadBooks from "../components/ReadBooks";
-import { Book } from '../schemas/Book';
-import { useParams } from "react-router-dom";
-
-
+import './ProfilePage.css'
 
 function ProfilePage() {
-  const [userId, setUserId] = useState('0');
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [userBooks, setUserBooks] = useState<string[]>([]);
+  const [admin, setAdmin] = useState(false);
 
+  const navigate = useNavigate();
 
-  async function CheckIfAdmin(userId: string) {
-    const docRef = doc(db, "users", userId);
-    const docSnap = await getDoc(docRef);
-    return (
-      docSnap.get("admin")
-    );
-  };
-
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      setUserId(user.uid);
-      console.log(userId);
-      setIsAdmin(await CheckIfAdmin(userId));
-      const userDoc = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userDoc);
-      console.log(userId)
-      //const userBooks = userSnap.get("readBooks");
-      //setUserBooks(userBooks);
-    }
-  });
-
-  function showAddBooks() {
-    if (isAdmin) {
-      return (
-        <AddBook />
-      )
-    }
+  const onAddBookClick = () => {
+    navigate("/add-book");
   }
 
+  const onAddAuthorClick = () => {
+    navigate("/add-author");
+  }
 
+  useEffect(() => {
+    isAdmin().then((isAdmin) => {
+      setAdmin(isAdmin);
+    });
+  }, []);
 
   return (
     <div>
       <h1>Bruker</h1>
+      {
+        admin && (
+          <div className="parent-container">
+            <div className="button-container">
+              <button onClick={onAddAuthorClick} className="add-button">
+                <span className="button-text">Legg til forfatter</span>
+                <img src='./person_add.png' alt='Add author' className="button-icon" />
+              </button>
+              <button onClick={onAddBookClick} className="add-button">
+                <span className="button-text">Legg til bok</span>
+                <img src='./library_add.png' alt='Add book' className="button-icon" />
+              </button>
+            </div>
+          </div>
+        )
+      }
       <Logout />
-      {showAddBooks()}
-      {userId && <ReadBooks userId={userId} />}
     </div>
-  )
+  );
+
 }
 
 export default ProfilePage;

@@ -14,7 +14,8 @@ import { useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import { Review } from "../schemas/Review"
 
-function AddReview() {
+
+const addReview = () => {
   const [rating, setRating] = useState("1");
   const [ratingValue, setRatingValue] = useState(1);
   const [text, setText] = useState("");
@@ -26,24 +27,28 @@ function AddReview() {
     setRatingValue(parseInt(rating));
   };
 
-  const addReview = async () => {
+  const insertReview = async () => {
     const user = auth.currentUser?.uid;
-    const test = (isbn! + user);
+    const book = isbn;
+    const documentID = book! + user;
+
     if (ratingValue > 0 && ratingValue < 7) {
       try {
-        await setDoc(doc(db, "reviews", test), {
-          isbn,
-          user,
-          published,
-          rating,
-          text,
-        });
-        alert("Review has been added!");
+        const review: Review = {
+          user: user!,
+          book: book!,
+          rating: rating,
+          text: text,
+          published: published
+        };
+
+        const docRef = doc(db, 'reviews', documentID);
+        await setDoc(docRef, review);
       } catch (e) {
         console.error("Error adding review: ", e);
       }
     } else {
-      alert("Fill in a rating between 1 and 6!");
+      alert("Du må skrive inn en vurdering mellom 1 og 6!");
     }
   };
 
@@ -71,13 +76,14 @@ function AddReview() {
             <MenuItem value={"5"}>5</MenuItem>
             <MenuItem value={"6"}>6</MenuItem>
           </Select>
-          <Button variant="contained" onClick={addReview}>
+          <Button variant="contained" onClick={insertReview}>
             Legg til vurdering
           </Button>
         </Stack>
       </Container>
+      
     </div>
   );
 }
 
-export default AddReview;
+export default addReview;
