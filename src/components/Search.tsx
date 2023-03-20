@@ -73,7 +73,7 @@ function Search() {
       let totalScore = 0;
       if (authorsInBooksWithScore.some((item) => item.author === author.documentID)) {
         totalScore += 0.3 * (authorsInBooksWithScore.find((item) => item.author === author.documentID)?.score ?? 0);
-        }
+      }
       const exactTitleScore = author.name.toLowerCase().startsWith(searchQuery.toLowerCase()) ? 1.6 : 0;
       const titleScore = author.name.toLowerCase().includes(searchQuery.toLowerCase()) ? 0.7 : 0;
       const natScore = author.nationality?.toLowerCase().includes(searchQuery.toLowerCase()) ? 0.4 : 0;
@@ -130,8 +130,8 @@ function Search() {
   const navigate = useNavigate();
 
   const handleSearchResultClick = (isBook: boolean, docID: string) => {
-    if (isBook){
-    navigate(`/book/${docID}`);
+    if (isBook) {
+      navigate(`/book/${docID}`);
     } else {
       navigate(`/author/${docID}`);
     }

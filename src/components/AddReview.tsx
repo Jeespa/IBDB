@@ -48,7 +48,6 @@ const addReview: React.FC<AddReviewProps> = ({ handleCloseModal }) => {
 
         const docRef = doc(db, 'reviews', documentID);
         await setDoc(docRef, review);
-        console.log("Review added with ID: ", docRef.id);
       } catch (e) {
         console.error("Error adding review: ", e);
       }

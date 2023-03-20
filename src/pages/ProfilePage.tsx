@@ -1,45 +1,52 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+import isAdmin from '../utils/admin'
 import Logout from "../components/Logout";
-import AddBook from "../components/AddBook";
-import { auth, db } from "../firebase-config";
+import './ProfilePage.css'
 
 function ProfilePage() {
+  const [admin, setAdmin] = useState(false);
 
-    const [userId, setUserId] = useState('0');
-    const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate();
 
-    async function CheckIfAdmin(userId: string) {
-      const docRef = doc(db, "users", userId);
-      const docSnap = await getDoc(docRef);
-      return (
-        docSnap.get("admin")
-      );
-    };
+  const onAddBookClick = () => {
+    navigate("/add-book");
+  }
 
-    onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          setUserId(user.uid);
-          setIsAdmin(await CheckIfAdmin(userId));
-        }
-      });
+  const onAddAuthorClick = () => {
+    navigate("/add-author");
+  }
 
-    function showAddBooks() {
-      if (isAdmin) {
-        return (
-          <AddBook />
-        )
-      }
-    }
+  useEffect(() => {
+    isAdmin().then((isAdmin) => {
+      setAdmin(isAdmin);
+    });
+  }, []);
 
   return (
     <div>
-        <h1>Bruker</h1>
-        <Logout />
-        {showAddBooks()}
+      <h1>Bruker</h1>
+      {
+        admin && (
+          <div className="parent-container">
+            <div className="button-container">
+              <button onClick={onAddAuthorClick} className="add-button">
+                <span className="button-text">Legg til forfatter</span>
+                <img src='./person_add.png' alt='Add author' className="button-icon" />
+              </button>
+              <button onClick={onAddBookClick} className="add-button">
+                <span className="button-text">Legg til bok</span>
+                <img src='./library_add.png' alt='Add book' className="button-icon" />
+              </button>
+            </div>
+          </div>
+        )
+      }
+      <Logout />
     </div>
-  )
+  );
+
 }
 
 export default ProfilePage;
