@@ -7,6 +7,7 @@ import "./Navbar.css";
 import { auth } from '../firebase-config';
 import '../index.css'
 import DarkMode from './DarkMode';
+import Genres from './Genres';
 
 function Navbar() {
 
@@ -25,6 +26,7 @@ function Navbar() {
       <nav>
         <Link to="/"><img src={"/ibdb.png"} style={{marginTop: 15}}/></Link>
         <div id="search"><Search /></div>
+        <Genres/>
         <DarkMode/>
         <Link to={profilLink}><img src={"/account.png"}/></Link>
       </nav>
