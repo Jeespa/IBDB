@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { db } from "../firebase-config.js";
 import { collection, doc, getDocs, query, where } from "firebase/firestore";
 import { Book } from "../schemas/Book.js";
 import BookForSlideshow from "./BookForSlideshow";
 
 function Slideshow() {
+  const [documentIDs, setDocumentIDs] = useState<string[]>([]);
   const [bookDocs, setBookDocs] = useState<Book[]>([]);
+  const [books, setBooks] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const getBooks = async () => {
@@ -14,7 +16,7 @@ function Slideshow() {
     const tmp = querySnapshot.docs.map((doc) => doc.id);
 
     const promises = tmp.map((book) => {
-      const q = query(collection(db, "reviews"), where("isbn", "==", book));
+      const q = query(collection(db, "reviews"), where("book", "==", book));
       return getDocs(q);
     });
 
@@ -50,11 +52,13 @@ function Slideshow() {
   };
 
   useEffect(() => {
+    const timeoutId = setTimeout(fetchData, 1200);
     async function fetchData() {
       await getBooks();
     }
     fetchData();
   }, []);
+  
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -83,8 +87,11 @@ function Slideshow() {
       if (doc.exists()) {
         const bookDoc = doc.data() as Book;
         bookDocs.push(bookDoc);
+        books.push(doc.id)
       }
     });
+    const ids = querySnapshot.docs.map((doc) => doc.id)
+    setDocumentIDs(ids);
     return bookDocs;
   };
 
@@ -117,7 +124,7 @@ function Slideshow() {
           key={book.description}
           className={index === currentIndex ? "slide active" : "slide"}
         >
-          {index === currentIndex && <BookForSlideshow book={book} />}
+          {index === currentIndex && <BookForSlideshow book={book} isbn={documentIDs.at(currentIndex)!} />}
         </div>
       ))}
     </div>
