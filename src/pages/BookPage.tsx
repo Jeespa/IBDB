@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { onSnapshot, doc } from "firebase/firestore";
-import { ref, getDownloadURL } from 'firebase/storage';
-import { FidgetSpinner } from 'react-loader-spinner';
+import { ref, getDownloadURL } from "firebase/storage";
+import { FidgetSpinner } from "react-loader-spinner";
 
 import { db, storage } from "../firebase-config";
-import { Book } from '../schemas/Book'
-import AddReview from '../components/AddReview';
-import Reviews from '../components/Reviews';
-import AverageRating from '../components/AverageRating';
-import '../index.css'
-import './BookPage.css'
+import { Book } from "../schemas/Book";
+import AddReview from "../components/AddReview";
+import Reviews from "../components/Reviews";
+import AverageRating from "../components/AverageRating";
+import "../index.css";
+import "./BookPage.css";
 
 function BookPage() {
   const { isbn } = useParams();
@@ -21,24 +21,22 @@ function BookPage() {
 
   const setImageURL = async () => {
     setImageURLState(await getDownloadURL(ref(storage, `books/${isbn}.jpg`)));
-  }
+  };
   const getBook = () => {
     if (isbn !== undefined) {
-      const bookRef = doc(db, 'books', isbn);
+      const bookRef = doc(db, "books", isbn);
       onSnapshot(bookRef, (doc) => {
         if (doc.data()) {
           const book = doc.data() as Book;
           setBook(book);
           setImageURL();
           setBookExists(true);
-        }
-        else {
+        } else {
           setBookExists(false);
         }
-      })
+      });
     }
   };
-
 
   const [isAddReviewVisible, setIsAddReviewVisible] = useState(false);
 
@@ -50,7 +48,6 @@ function BookPage() {
     setIsAddReviewVisible(false);
   };
 
-
   useEffect(() => {
     getBook();
   }, [isbn]);
@@ -59,39 +56,40 @@ function BookPage() {
     return <h1>404 Book Not Found</h1>;
   }
 
-
-
   return (
     <div className="page">
       {book ? (
         <>
           <div className="book">
             <div className="bookimg">
-              <img src={imageURL} style={{ width: "200px", height: "300px", borderRadius: "5px" }} />
+              <img
+                src={imageURL}
+                style={{ width: "200px", height: "300px", borderRadius: "5px" }}
+              />
             </div>
             <div className="bookinfo">
               <h1>{book.title}</h1>
-              <div className="author">{book.authors?.join(', ')}</div>
+              <div className="author">{book.authors?.join(", ")}</div>
               <AverageRating />
               <div>{book.description}</div>
               <div>Antall sider: {book.pages}</div>
             </div>
           </div>
           <div className="reviewmodal">
-
-            {!isAddReviewVisible && <button onClick={handleOpenModal}>Legg til vurdering</button>}
-            {isAddReviewVisible && <AddReview handleCloseModal={handleCloseModal} />}
+            {!isAddReviewVisible && (
+              <button onClick={handleOpenModal}>Legg til vurdering</button>
+            )}
+            {isAddReviewVisible && (
+              <AddReview handleCloseModal={handleCloseModal} />
+            )}
           </div>
           <Reviews />
         </>
       ) : (
-          <FidgetSpinner
-            backgroundColor="#0096C7"
-            ballColors={["0", "0", "0"]}
-          />
+        <FidgetSpinner backgroundColor="#0096C7" ballColors={["0", "0", "0"]} />
       )}
     </div>
   );
 }
 
-export default BookPage
+export default BookPage;

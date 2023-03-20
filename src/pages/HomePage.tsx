@@ -1,17 +1,19 @@
 import Slideshow from "../components/Slideshow";
-import { auth } from "../firebase-config";
+import AuthorSlideshow from "../components/AuthorSlideshow"
 import "./HomePage.css"
 
 function Home() {
   return (
-    <>
     <div className="topPage">
-      <h1>Månedens beste bøker</h1>
+      <h2>Månedens beste bøker</h2>
       <div>
         <Slideshow />
       </div>
+      <h2>Månedens beste forfattere</h2>
+      <div>
+        <AuthorSlideshow />
+      </div>
     </div>
-    </>
   )
 }
 
