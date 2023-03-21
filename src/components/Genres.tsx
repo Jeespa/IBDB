@@ -4,6 +4,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import './Navbar.css';
 
+
 import { getFirestore, doc, getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { Link } from 'react-router-dom';
@@ -14,13 +15,16 @@ const books = collection(db, "books");
 //The getDocs() method will return a promise, add await keyword in front of it.
 const docsSnap = await getDocs(books);
 //object that stores books by genre
-const booksByGenre: Record<string, string[]> = {};
+export const booksByGenre: Record<string, string[]> = {
+  // ...
+};
 
 //To see the genre of each document from the books collection, loop through the docsSnap object using the forEach() method.
 docsSnap.forEach(doc => {
   const bookData = doc.data();
   const genre = bookData.genre;
-  // console.log(genre);
+  const title = bookData.title;
+  console.log(genre);
 
   // If the genre key doesn't exist in the object, create it with an empty array as the value
   if (!booksByGenre[genre]) {
@@ -37,7 +41,7 @@ docsSnap.forEach(doc => {
 const genreList = Object.keys(booksByGenre);
 
 // Pass the genreList to another page or use it to populate a drop-down menu
-console.log(genreList);
+// console.log(genreList);
 
 
 export default function Genres() {
@@ -75,22 +79,32 @@ export default function Genres() {
         <MenuItem onClick={handleClose}>Biografi</MenuItem> */}
 
 
-        <MenuItem onClick={handleClose}>Eventyr</MenuItem>
-        
-        <Link to={`/books?genre=Fantasy`}>
+        <Link to={'books/Eventyr'}>
+          <MenuItem onClick={handleClose}>Eventyr</MenuItem>
+        </Link>
+        <Link to={'/books/Fantasy'}>
           <MenuItem onClick={handleClose}>Fantasy</MenuItem>
         </Link>
+        {/* <Link to={{ pathname: "/books", search: `?genre=Fantasy` }}>
+          <MenuItem onClick={handleClose}>Fantasy</MenuItem>
+        </Link> */}
 
         {/* <MenuItem onClick={handleClose}>Filosofi</MenuItem>
         <MenuItem onClick={handleClose}>Historisk</MenuItem>
         <MenuItem onClick={handleClose}>Komedie</MenuItem> */}
-        <MenuItem onClick={handleClose}>Krim</MenuItem>
+        <Link to={'books/Krim'}>
+          <MenuItem onClick={handleClose}>Krim</MenuItem>
+        </Link>
         {/* <MenuItem onClick={handleClose}>Reise</MenuItem>
         <MenuItem onClick={handleClose}>Religiøs</MenuItem> */}
-        <MenuItem onClick={handleClose}>Roman</MenuItem>
+        <Link to={'books/Roman'}>
+          <MenuItem onClick={handleClose}>Roman</MenuItem>
+        </Link>
         {/* <MenuItem onClick={handleClose}>Romantikk</MenuItem>
         <MenuItem onClick={handleClose}>Science fiction</MenuItem> */}
-        <MenuItem onClick={handleClose}>Skrekk</MenuItem>
+        <Link to={'books/Skrekk'}>
+          <MenuItem onClick={handleClose}>Skrekk</MenuItem>
+        </Link>
         {/* <MenuItem onClick={handleClose}>Spenning</MenuItem>
         <MenuItem onClick={handleClose}>Thriller</MenuItem>
         <MenuItem onClick={handleClose}>Tragedie</MenuItem> */}

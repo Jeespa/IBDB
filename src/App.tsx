@@ -10,6 +10,7 @@ import LoginPage from "./pages/LoginPage";
 import CreateUserPage from "./pages/CreateUserPage";
 import ProfilePage from "./pages/ProfilePage";
 import BookPage from "./pages/BookPage";
+import GenrePage from './pages/GenrePage';
 
 function app() {
   return (
@@ -24,6 +25,7 @@ function app() {
         <Route path="/createuser" element={<CreateUserPage />}/>
         <Route path="/profile" element={<ProfilePage />}/>
         <Route path="/book/:isbn" element={<BookPage />}/>
+        <Route path="/books/:genre" element={<GenrePage />} />
       </Routes>
     </div>
     </Router>
