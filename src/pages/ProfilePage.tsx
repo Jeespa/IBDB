@@ -39,8 +39,8 @@ function ProfilePage() {
     <div>
       <h1>Bruker</h1>
       <Logout />
-      {/* HER */}
-      <WishList userId={userId} />
+      {userId && <WishList userId={userId}/>}
+      
       {showAddBooks()}
 
     </div>

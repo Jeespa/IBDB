@@ -6,6 +6,7 @@ import { TableContainer, Table, Paper, TableHead, TableRow, TableCell, TableBody
 import { db } from "../firebase-config";
 import { Book } from "../schemas/Book";
 import "./WishList.css";
+import { async } from "@firebase/util";
 
 
 interface Props {
@@ -24,12 +25,16 @@ function WishList(props :Props) {
 
 
     useEffect(() => {
-        async function getBooks() {
-            const userDocRef = doc(db, "users", props.userId); //her skal den hente ut verdien
-            const userDoc = await getDoc(userDocRef); //denne funksjonen venter, men neste linje kjører, så derfor rekker den ikke å laste inn tror jeg?
-            const userData = userDoc.data() ?? {}; //Her vil den heller velge den tomme arrayen {} fordi den ikke rekker å laste inn infoen fra userdocRef
+        async function getUserData() {
+            const userDocRef = doc(db, "users", props.userId); 
+            const userDoc = await getDoc(userDocRef);
+            
+            const userData = userDoc.data() ?? {}; 
+            console.log(userData)
+            return userData;
+        }
 
-            console.log(userDoc.data)
+        async function getBooksData(){
             const booksRef = collection(db, "books") as CollectionReference<Book>;
             const booksSnapshot = await getDocs<Book>(booksRef);
     
@@ -38,23 +43,35 @@ function WishList(props :Props) {
                 data["documentID"] = doc.id;
                 return data as Book;
             })
-    
-            const wishList = userData.read || [];
-            const filteredBooks = booksData.filter((book) => {
-                return wishList.includes(book.documentID);
-            });
-            setRows(filteredBooks);
-    
-        
-            console.log(wishList)
+
+           
+            return booksData;
+
         }
 
-        getBooks();
+        async function getWishlist(){
+            const userData= await getUserData();
+            console.log(userData)
+            
+            
+            const booksData=await getBooksData();
+            console.log(booksData)
+            
 
-        
-    }, [props.userId]);
+            
+            const wishList = userData.Wishlist || [];
+            const filteredBooks = booksData.filter((book) => {
+                return wishList.includes(book.documentID);
+             });
+          setRows(filteredBooks);
+          console.log(filteredBooks)
+          return filteredBooks;
 
+        } getWishlist()
     
+    }, [props.userId]);
+    
+
 
     return (
         <div className="list-container">
