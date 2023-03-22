@@ -4,13 +4,23 @@ import { db } from "../firebase-config";
 import { Book } from "../schemas/Book";
 import { collection } from "firebase/firestore";
 import "./ReadBooks.css"
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   userId: string;
 }
 
+
+    // HER
+    
+
 function ReadBooks(props: Props) {
   const [books, setBooks] = useState<Book[]>([]);
+  const navigate = useNavigate();
+  const onTableCellClick = (documentID: string) => {
+    navigate(`/book/${documentID}`);
+  };
 
   useEffect(() => {
       async function getBooks() {
@@ -39,7 +49,7 @@ function ReadBooks(props: Props) {
 
 
   return (
-    <div className="read-books">
+   /* { <div className="read-books">
       <h2>Leste bøker</h2>
       <ul>
         {books.map((book) => (
@@ -50,8 +60,34 @@ function ReadBooks(props: Props) {
           </li>
         ))}
       </ul>
-    </div>
+    </div> }*/
+
+    <div className="list-container">
+            <div style={{ width: "100%", margin: "50 auto" }}>
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 250, maxWidth: 500 }} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Leste bøker</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {books.map((book) => (
+                                // HER
+                                <TableRow key={book.documentID}>
+                                    <TableCell onClick={() => book.documentID && onTableCellClick(book.documentID)} style={{ cursor: "pointer" }}>
+                                        {book.title}, {book.authors?.join(", ")}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div>
+        </div>
   );
 }
+
+
 
 export default ReadBooks;

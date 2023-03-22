@@ -20,7 +20,7 @@ function BookPage() {
   const [bookExists, setBookExists] = useState(true);
   const [imageURL, setImageURLState] = useState<string>();
   const [hasReadBook, setHasReadBook] = useState(false);
-  const [buttonName, setButtonName] = useState("Legg til i Har lest");
+  const [buttonName, setButtonName] = useState("Legg til i Leste bøker");
 
   const setImageURL = async () => {
     setImageURLState(await getDownloadURL(ref(storage, `books/${isbn}.jpg`)));
@@ -66,15 +66,18 @@ function BookPage() {
       const userDocRef = doc(db, "users", currentUser.uid);
       const userDocSnapshot = await getDoc(userDocRef);
       const userData = userDocSnapshot.data();
-      const readBooks = userData?.readBooks || [];
+      const readBooks = userData?.read || [];
 
       if (hasReadBook) {
-        
+        console.log(isbn)
         const updatedReadBooks = readBooks.filter((isbnInRead: string) => isbnInRead !== isbn);
+        
         await updateDoc(userDocRef, { read: updatedReadBooks }).then(() => {
+          alert("Bok fjernet fra Leste bøker.")
           setHasReadBook(false);
           setButtonName("Legg til i Har lest");
           setIsOpen(false);
+          
         })
           .catch((error) => {
             alert("En feil oppstod ved fjerning av bok fra Leste bøker: " + error.message); // Set error message
@@ -84,6 +87,7 @@ function BookPage() {
         updateDoc(userDocRef, {
           read: arrayUnion(isbn),
         }).then(() => {
+          alert("Boken ble lagt til i Leste bøker")
           setHasReadBook(true);
           setButtonName("Fjern fra Har lest");
         })
@@ -103,10 +107,10 @@ function BookPage() {
               const data = doc.data();
               if (data.read.includes(isbn)) {
                 setHasReadBook(true);
-                setButtonName("Fjern fra Har lest");
+                setButtonName("Fjern fra Leste bøker");
               } else {
                 setHasReadBook(false);
-                setButtonName("Legg til i Har lest");
+                setButtonName("Legg til i Leste bøker");
                 setIsOpen(false);
               }
             }
@@ -157,6 +161,7 @@ function BookPage() {
             </div>
           )}
         </div>
+  
       <Reviews />
         </>
       ) : (
