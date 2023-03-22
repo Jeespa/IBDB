@@ -73,7 +73,6 @@ function BookPage() {
         const updatedReadBooks = readBooks.filter((isbnInRead: string) => isbnInRead !== isbn);
         
         await updateDoc(userDocRef, { read: updatedReadBooks }).then(() => {
-          alert("Bok fjernet fra Leste bøker.")
           setHasReadBook(false);
           setButtonName("Legg til i Har lest");
           setIsOpen(false);
@@ -87,7 +86,6 @@ function BookPage() {
         updateDoc(userDocRef, {
           read: arrayUnion(isbn),
         }).then(() => {
-          alert("Boken ble lagt til i Leste bøker")
           setHasReadBook(true);
           setButtonName("Fjern fra Har lest");
         })
