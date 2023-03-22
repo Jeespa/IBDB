@@ -22,7 +22,7 @@ export default function AverageRating() {
     }
 
     const getRatings = async () => {
-        const q = query(collection(db, "reviews"), where("isbn", "==", currentBook));
+        const q = query(collection(db, "reviews"), where("book", "==", currentBook));
         onSnapshot(q, (querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 tempRating = tempRating + parseInt(doc.get("rating"));
@@ -31,6 +31,9 @@ export default function AverageRating() {
                 setTotalReviews(tempReviews)
             });
         })
+        console.log(currentBook)
+        console.log(tempRating)
+        console.log(tempReviews)
     }
     
     //call getRatings when app is loaded

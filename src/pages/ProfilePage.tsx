@@ -4,9 +4,26 @@ import { useEffect, useState } from "react";
 import isAdmin from '../utils/admin'
 import Logout from "../components/Logout";
 import './ProfilePage.css'
+import ReadBooks from "../components/ReadBooks";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "../firebase-config";
+import { doc, getDoc } from "firebase/firestore";
 
 function ProfilePage() {
   const [admin, setAdmin] = useState(false);
+  const [userId, setUserId] = useState('0');
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      setUserId(user.uid);
+      console.log(userId);
+      const userDoc = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userDoc);
+      console.log(userId)
+      //const userBooks = userSnap.get("readBooks");
+      //setUserBooks(userBooks);
+    }
+  });
 
   const navigate = useNavigate();
 
@@ -44,6 +61,7 @@ function ProfilePage() {
         )
       }
       <Logout />
+      {userId && <ReadBooks userId={userId} />}
     </div>
   );
 

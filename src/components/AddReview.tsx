@@ -16,11 +16,7 @@ import { Review } from "../schemas/Review"
 import { User } from '../schemas/User';
 
 
-interface AddReviewProps {
-  handleCloseModal: () => void;
-}
-
-const addReview: React.FC<AddReviewProps> = ({ handleCloseModal }) => {
+const addReview = () => {
   const [rating, setRating] = useState("1");
   const [ratingValue, setRatingValue] = useState(1);
   const [text, setText] = useState("");
@@ -56,7 +52,7 @@ const addReview: React.FC<AddReviewProps> = ({ handleCloseModal }) => {
         console.error("Error adding review: ", e);
       }
     } else {
-      alert("Fill in a rating between 1 and 6!");
+      alert("Du må skrive inn en vurdering mellom 1 og 6!");
     }
   };
 
@@ -97,7 +93,6 @@ const addReview: React.FC<AddReviewProps> = ({ handleCloseModal }) => {
             Legg til vurdering
           </Button>
         </Stack>
-        <button id="closeBtn" onClick={handleCloseModal}>Lukk</button>
       </Container>
       
     </div>
