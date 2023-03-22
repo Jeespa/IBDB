@@ -130,6 +130,9 @@ function Search() {
   const navigate = useNavigate();
 
   const handleSearchResultClick = (isBook: boolean, docID: string) => {
+    if (!docID) {
+      return;
+    }
     if (isBook) {
       navigate(`/book/${docID}`);
     } else {
@@ -164,7 +167,7 @@ function Search() {
             {searchResults.map((result, index) => {
               if ('title' in result) {
                 return (
-                  <li key={result.documentID} className="search-item" onClick={() => handleSearchResultClick(true, result.documentID)}>
+                  <li key={result.documentID} className="search-item" onClick={() => handleSearchResultClick(true, result.documentID ? result.documentID : "")}>
                     <img src={searchResultsUrl[index]} className="search-item-image" />
                     <div className="search-item-details">
                       <h3 className="search-item-title">{result.title}</h3>
@@ -177,7 +180,7 @@ function Search() {
                 );
               } else {
                 return (
-                  <li key={result.documentID} className="search-item" onClick={() => handleSearchResultClick(false, result.documentID)}>
+                  <li key={result.documentID} className="search-item" onClick={() => handleSearchResultClick(false, result.documentID ? result.documentID : "")}>
                     <img src={searchResultsUrl[index]} className="search-item-image" />
                     <div className="search-item-details">
                       <h3 className="search-item-title">{result.name}</h3>

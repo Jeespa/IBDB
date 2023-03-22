@@ -1,0 +1,51 @@
+/* .read-books{
+    display: flex;
+    flex-direction: column;
+    margin-left: 11%;
+    width: 50%;
+    height: 50%;
+    max-width: 400px;
+    background-color: #68acb3ef;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .read-books h2 {
+    margin-top: 0;
+    color:rgb(249, 246, 246);
+  }
+  
+  .read-books ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .read-books li {
+    padding: 5px 0;
+    border-bottom: 1px solid #ccc;
+  } */
+  
+  .list-container{
+    position: absolute;
+    top: 35%;
+    width: 30%;
+    left: 10%;
+    display: block;
+    align-items: baseline;
+    justify-content: 100%;
+    z-index: 2;
+  }
+
+  .list-container thead {
+    background-color: #9ED5E7;
+  }
+  .list-container thead th {
+    font-weight: bold;
+    font-size: 1.1em;
+    font-family: "Century Gothic", sans-serif;
+  }
+
+  
+
