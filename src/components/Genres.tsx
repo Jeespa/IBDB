@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -8,6 +8,7 @@ import './Navbar.css';
 import { getFirestore, doc, getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { Link } from 'react-router-dom';
+import { Book } from '../schemas/Book';
 
 const books = collection(db, "books");
 
@@ -15,24 +16,25 @@ const books = collection(db, "books");
 //The getDocs() method will return a promise, add await keyword in front of it.
 const docsSnap = await getDocs(books);
 //object that stores books by genre
-export const booksByGenre: Record<string, string[]> = {
+export const booksByGenre: Record<string, Book[]> = {
   // ...
 };
 
 //To see the genre of each document from the books collection, loop through the docsSnap object using the forEach() method.
 docsSnap.forEach(doc => {
-  const bookData = doc.data();
-  const genre = bookData.genre;
-  const title = bookData.title;
-  console.log(genre);
+  // Make into a Book object with documentID as doc.id()
+  const book = { ...doc.data(), documentID: doc.id } as Book;
+  const genre = book.genre;
 
   // If the genre key doesn't exist in the object, create it with an empty array as the value
-  if (!booksByGenre[genre]) {
-    booksByGenre[genre] = [];
-  }
+  genre?.forEach((g) => {
+    if (!booksByGenre[g]) {
+      booksByGenre[g] = [];
+    }
+    booksByGenre[g].push(book);
+  });
 
   // Add the book title to the array for the corresponding genre
-  booksByGenre[genre].push(bookData.title);
 });
 
 // console.log(booksByGenre);

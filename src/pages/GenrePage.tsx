@@ -1,4 +1,4 @@
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { booksByGenre } from '../components/Genres';
 
 //This component renders the books for the selected genre based on URL parameter.
@@ -12,19 +12,25 @@ function GenrePage() {
     const booksToShow = booksByGenre[genre as string] || [];
     console.log('genre: ' + genre);
     console.log('books to show: ' + booksToShow);
-    
+
+    const navigate = useNavigate();
+
+    const onBookClick = (e: React.MouseEvent<HTMLLIElement>) => {
+        navigate(`/book/${e.currentTarget.id}`);
+    }
 
     return (
         <div>
             <h1> {genre} </h1>
             <ul>
-                {booksToShow.map((bookTitle, i) => (
-                    <li key={i}>{bookTitle}</li>
+                {booksToShow.map((book, i) => (
+                    // cursor pointer
+                    <li key={i} id={book.documentID} onClick={onBookClick} style={{ cursor: 'pointer' }} >{book.title}</li>
                 ))}
 
             </ul>
         </div>
-        
+
     );
 }
 
