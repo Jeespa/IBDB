@@ -3,6 +3,7 @@ import { getDownloadURL, ref } from 'firebase/storage';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { booksByGenre } from '../components/Genres';
 import { storage } from '../firebase-config';
+import './GenrePage.css';
 
 function GenrePage() {
     const location = useLocation();
@@ -31,15 +32,16 @@ function GenrePage() {
     }
 
     return (
-        <div>
+        <div className='previewContainer'>
             <h1>{genre}</h1>
             <ul>
                 {booksToShow.map((book, i) => (
-                    <li key={i} id={book.documentID} onClick={onBookClick} style={{ cursor: 'pointer' }}>
+                    <li className='genreBookPreview' key={i} id={book.documentID} onClick={onBookClick} style={{ cursor: 'pointer' }}>
+                        <div className='titlePreview'>{book.title}</div>
                         {coverUrls[i] && (
-                            <img src={coverUrls[i]} />
+                            <img className='bookPreview' src={coverUrls[i]} />
                         )}
-                        {book.title}
+                        
                     </li>
                 ))}
             </ul>
