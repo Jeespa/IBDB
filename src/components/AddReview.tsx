@@ -8,11 +8,12 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import { Review } from "../schemas/Review"
+import { User } from '../schemas/User';
 
 
 interface AddReviewProps {
@@ -33,6 +34,8 @@ const addReview: React.FC<AddReviewProps> = ({ handleCloseModal }) => {
 
   const insertReview = async () => {
     const user = auth.currentUser?.uid;
+    const fetchedUsername = getUsername(user || "");
+    const username: string = (await fetchedUsername).toString();
     const book = isbn;
     const documentID = book! + user;
 
@@ -40,6 +43,7 @@ const addReview: React.FC<AddReviewProps> = ({ handleCloseModal }) => {
       try {
         const review: Review = {
           user: user!,
+          username: username,
           book: book!,
           rating: rating,
           text: text,
@@ -55,6 +59,15 @@ const addReview: React.FC<AddReviewProps> = ({ handleCloseModal }) => {
       alert("Fill in a rating between 1 and 6!");
     }
   };
+
+  async function getUsername(userid: string): Promise<string> {
+    const docRef = doc(db, "users", userid);
+    const docSnap = await getDoc(docRef);
+    const user = docSnap.data() as User;
+    const username = user.name;
+    
+    return username;
+}
 
   return (
     <div>

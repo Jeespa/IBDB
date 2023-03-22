@@ -83,7 +83,7 @@ function BookPage() {
               <AddReview handleCloseModal={handleCloseModal} />
             )}
           </div>
-          <Reviews />
+          <Reviews isbn={isbn} />
         </>
       ) : (
         <FidgetSpinner backgroundColor="#0096C7" ballColors={["0", "0", "0"]} />
