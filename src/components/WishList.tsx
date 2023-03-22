@@ -6,7 +6,6 @@ import { TableContainer, Table, Paper, TableHead, TableRow, TableCell, TableBody
 import { db } from "../firebase-config";
 import { Book } from "../schemas/Book";
 import "./WishList.css";
-import { async } from "@firebase/util";
 
 
 interface Props {
@@ -30,7 +29,6 @@ function WishList(props :Props) {
             const userDoc = await getDoc(userDocRef);
             
             const userData = userDoc.data() ?? {}; 
-            console.log(userData)
             return userData;
         }
 
@@ -51,11 +49,9 @@ function WishList(props :Props) {
 
         async function getWishlist(){
             const userData= await getUserData();
-            console.log(userData)
             
             
             const booksData=await getBooksData();
-            console.log(booksData)
             
 
             
@@ -64,7 +60,6 @@ function WishList(props :Props) {
                 return wishList.includes(book.documentID);
              });
           setRows(filteredBooks);
-          console.log(filteredBooks)
           return filteredBooks;
 
         } getWishlist()
@@ -87,7 +82,7 @@ function WishList(props :Props) {
                             {rows.map((row) => (
                                 // HER
                                 <TableRow key={row.documentID}>
-                                    <TableCell onClick={() => onTableCellClick(row.documentID)} style={{ cursor: "pointer" }}>
+                                    <TableCell onClick={() => onTableCellClick(row.documentID ? row.documentID : "")} style={{ cursor: "pointer" }}>
                                         {row.title}, {row.authors?.join(", ")}
                                     </TableCell>
                                 </TableRow>

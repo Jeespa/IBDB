@@ -1,0 +1,48 @@
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    width: fit-content;
+  }
+  
+  .add-button {
+    display: flex;
+    align-items: center;
+    background-color: #0096c7;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 12px 24px;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .add-button:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .button-text {
+    margin-right: 5px;
+  }
+  
+  .button-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .parent-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Adjust this value according to your needs */
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    width: fit-content;
+  }  
