@@ -8,11 +8,12 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { doc, setDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { auth, db } from "../firebase-config";
 import { Review } from "../schemas/Review"
+import { User } from '../schemas/User';
 
 
 const addReview = () => {
@@ -29,6 +30,8 @@ const addReview = () => {
 
   const insertReview = async () => {
     const user = auth.currentUser?.uid;
+    const fetchedUsername = getUsername(user || "");
+    const username: string = (await fetchedUsername).toString();
     const book = isbn;
     const documentID = book! + user;
 
@@ -36,6 +39,7 @@ const addReview = () => {
       try {
         const review: Review = {
           user: user!,
+          username: username,
           book: book!,
           rating: rating,
           text: text,
@@ -51,6 +55,15 @@ const addReview = () => {
       alert("Du må skrive inn en vurdering mellom 1 og 6!");
     }
   };
+
+  async function getUsername(userid: string): Promise<string> {
+    const docRef = doc(db, "users", userid);
+    const docSnap = await getDoc(docRef);
+    const user = docSnap.data() as User;
+    const username = user.name;
+    
+    return username;
+}
 
   return (
     <div>

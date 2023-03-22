@@ -43,7 +43,7 @@ function ProfilePage() {
 
   return (
     <div>
-      <h1>Bruker</h1>
+      <h1>Brukerside</h1>
       {
         admin && (
           <div className="parent-container">
