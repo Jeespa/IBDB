@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { collection, doc, getDocs, getDoc, CollectionReference } from "firebase/firestore";
+import { collection, doc, getDocs, getDoc, CollectionReference, documentId } from "firebase/firestore";
 import { TableContainer, Table, Paper, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
 
 import { db } from "../firebase-config";
 import { Book } from "../schemas/Book";
 import "./WishList.css";
 
-interface WishlistProps {
-    userId: string;
-}
 
-function WishList(props: WishlistProps) {
+interface Props {
+    userId: string;
+  }
+
+function WishList(props :Props) {
     const [rows, setRows] = useState<Book[]>([]);
+
 
     const navigate = useNavigate();
     // HER
@@ -20,29 +22,39 @@ function WishList(props: WishlistProps) {
         navigate(`/book/${documentID}`);
     };
 
+
     useEffect(() => {
         async function getBooks() {
-            const userDocRef = doc(db, "users", props.userId);
-            const userDoc = await getDoc(userDocRef);
-            const userData = userDoc.data() ?? {};
+            const userDocRef = doc(db, "users", props.userId); //her skal den hente ut verdien
+            const userDoc = await getDoc(userDocRef); //denne funksjonen venter, men neste linje kjører, så derfor rekker den ikke å laste inn tror jeg?
+            const userData = userDoc.data() ?? {}; //Her vil den heller velge den tomme arrayen {} fordi den ikke rekker å laste inn infoen fra userdocRef
+
+            console.log(userDoc.data)
             const booksRef = collection(db, "books") as CollectionReference<Book>;
             const booksSnapshot = await getDocs<Book>(booksRef);
-
+    
             let booksData = booksSnapshot.docs.map((doc) => {
                 const data = doc.data() as Record<string, any>;
                 data["documentID"] = doc.id;
                 return data as Book;
-            });
-
-            const wishBooks = userData.wish || [];
+            })
+    
+            const wishList = userData.read || [];
             const filteredBooks = booksData.filter((book) => {
-                return wishBooks.includes(book.documentID);
+                return wishList.includes(book.documentID);
             });
             setRows(filteredBooks);
+    
+        
+            console.log(wishList)
         }
 
         getBooks();
+
+        
     }, [props.userId]);
+
+    
 
     return (
         <div className="list-container">

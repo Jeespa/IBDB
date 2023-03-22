@@ -13,6 +13,7 @@ function CreateUser() {
   const [password, setPassword] = useState("");
   const [admin, setAdmin] = useState(false);
   let readBooks: Array<String> = [];
+  let wishlist: Array<String> =[];
 
   function clearFields() {
     setUserId("");
@@ -21,6 +22,7 @@ function CreateUser() {
     setPassword("");
     setAdmin(false);
     readBooks = [];
+    wishlist=[];
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -37,6 +39,7 @@ function CreateUser() {
               password,
               admin,
               readBooks,
+              wishlist,
             });
             //clear textfields after pressing OK
             clearFields();
