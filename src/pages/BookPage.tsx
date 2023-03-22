@@ -160,7 +160,7 @@ function BookPage() {
           )}
         </div>
   
-      <Reviews />
+      <Reviews isbn={isbn} />
         </>
       ) : (
         <FidgetSpinner
