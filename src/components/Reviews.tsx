@@ -1,9 +1,9 @@
 import { TableContainer, Table, Paper, TableHead, TableRow, TableCell, TableBody, Button } from "@mui/material"
 
 import { useState, useEffect, Fragment } from "react";
-import { db } from "../firebase-config";
-import { collection, query, onSnapshot, DocumentData, where, doc, getDoc} from "firebase/firestore";
-import { useParams } from "react-router-dom";
+import { db, auth } from "../firebase-config";
+import { collection, query, onSnapshot, DocumentData, where, doc, getDoc, deleteDoc} from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 import '../schemas/Review.ts';
 import './Reviews.css'
 
@@ -12,6 +12,9 @@ export default function Reviews(isbn: any) {
     
     //our table will display whatever data is in 'rows'
     const [rows, setRows] = useState<DocumentData[]>([]);
+    const [userId, setUserId] = useState('0');
+    const [isAdmin, setIsAdmin] = useState(false);
+
 
     //getBooks functions to attach a listener and fetch book data
     const getReviews = () => {
@@ -50,6 +53,34 @@ export default function Reviews(isbn: any) {
         return `${day}. ${monthNames[month - 1]}, ${year}`;
       }
 
+      async function CheckIfAdmin(userId: string) {
+        const docRef = doc(db, "users", userId);
+        const docSnap = await getDoc(docRef);
+        return (
+          docSnap.get("admin")
+        );
+      };
+  
+      onAuthStateChanged(auth, async (user) => {
+          if (user) {
+            setUserId(user.uid);
+            setIsAdmin(await CheckIfAdmin(userId));
+          }
+        });
+  
+      function showDeleteReview(reviewID: string) {
+        if (isAdmin) {
+          return (
+            <Button color="warning" variant="outlined" onClick={()=>deleteReview(reviewID)}> Delete </Button>
+          )
+        }
+      }
+
+    const deleteReview = async (id: string) =>{
+        await deleteDoc(doc(db, "reviews", id));
+        alert("The review has been successfully deleted.")
+    }
+
     //call getBooks when app is loaded
     useEffect(() => {
         getReviews();
@@ -69,6 +100,7 @@ export default function Reviews(isbn: any) {
                                 <p style={{textAlign: 'right'}}> Skrevet av {rows.username}</p>
                             </div>
                         <h3>{rows.text}</h3>
+                        {showDeleteReview(rows.id)}
                     </div>
                 </div>  
             ))}
