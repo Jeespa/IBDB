@@ -11,7 +11,7 @@ import { async } from "@firebase/util";
 
 interface Props {
     userId: string;
-  }
+}
 
 function WishList(props :Props) {
     const [rows, setRows] = useState<Book[]>([]);
