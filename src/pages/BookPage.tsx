@@ -54,7 +54,6 @@ function BookPage() {
     if (hasAddedWish) {
       const updatedWishlist = wishlist.filter((isbnInWishlist: string) => isbnInWishlist !== isbn);
       await updateDoc(userDocRef, { Wishlist: updatedWishlist }).then(() => {
-        alert("Bok fjernet fra ønskeliste.")
         setHasAddedWish(false);
         setButtonName("Legg til i min ønskeliste");
         setIsOpen(false);
@@ -67,7 +66,6 @@ function BookPage() {
       updateDoc(userDocRef, {
         Wishlist: arrayUnion(isbn),
       }).then(() => {
-        alert("Boken ble lagt til i min ønskeliste")
         setHasAddedWish(true);
         setButtonName("Fjern fra min ønskeliste");
       })
