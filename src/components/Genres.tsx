@@ -76,10 +76,17 @@ export default function Genres() {
           'aria-labelledby': 'basic-button',
         }}
       >
-        {/* <MenuItem onClick={handleClose}>Akademisk</MenuItem>
-        <MenuItem onClick={handleClose}>Apokalyptisk</MenuItem>
-        <MenuItem onClick={handleClose}>Biografi</MenuItem> */}
+        <Link to={'books/Akademisk'}>
+          <MenuItem onClick={handleClose}>Akademisk</MenuItem>
+        </Link>
 
+        <Link to={'books/Apokalyptisk'}>
+          <MenuItem onClick={handleClose}>Apokalyptisk</MenuItem>
+        </Link>
+
+        <Link to={'books/Biografi'}>
+          <MenuItem onClick={handleClose}>Biografi</MenuItem>
+        </Link>
 
         <Link to={'books/Eventyr'}>
           <MenuItem onClick={handleClose}>Eventyr</MenuItem>
@@ -87,29 +94,58 @@ export default function Genres() {
         <Link to={'/books/Fantasy'}>
           <MenuItem onClick={handleClose}>Fantasy</MenuItem>
         </Link>
-        {/* <Link to={{ pathname: "/books", search: `?genre=Fantasy` }}>
-          <MenuItem onClick={handleClose}>Fantasy</MenuItem>
-        </Link> */}
 
-        {/* <MenuItem onClick={handleClose}>Filosofi</MenuItem>
-        <MenuItem onClick={handleClose}>Historisk</MenuItem>
-        <MenuItem onClick={handleClose}>Komedie</MenuItem> */}
+        <Link to={'books/Filosofi'}>
+          <MenuItem onClick={handleClose}>Filosofi</MenuItem>
+        </Link>
+
+        <Link to={'books/Historisk'}>
+          <MenuItem onClick={handleClose}>Historisk</MenuItem>
+        </Link>
+
+        <Link to={'books/Komedie'}>
+          <MenuItem onClick={handleClose}>Komedie</MenuItem>
+        </Link>
+
         <Link to={'books/Krim'}>
           <MenuItem onClick={handleClose}>Krim</MenuItem>
         </Link>
-        {/* <MenuItem onClick={handleClose}>Reise</MenuItem>
-        <MenuItem onClick={handleClose}>Religiøs</MenuItem> */}
+
+        <Link to={'books/Reise'}>
+          <MenuItem onClick={handleClose}>Reise</MenuItem>
+        </Link>
+
+        <Link to={'books/Religiøs'}>
+          <MenuItem onClick={handleClose}>Religiøs</MenuItem>
+        </Link>
+
         <Link to={'books/Roman'}>
           <MenuItem onClick={handleClose}>Roman</MenuItem>
         </Link>
-        {/* <MenuItem onClick={handleClose}>Romantikk</MenuItem>
-        <MenuItem onClick={handleClose}>Science fiction</MenuItem> */}
+
+        <Link to={'books/Romantikk'}>
+          <MenuItem onClick={handleClose}>Romantikk</MenuItem>
+        </Link>
+
+        <Link to={'books/Science fiction'}>
+          <MenuItem onClick={handleClose}>Science fiction</MenuItem>
+        </Link>
+
         <Link to={'books/Skrekk'}>
           <MenuItem onClick={handleClose}>Skrekk</MenuItem>
         </Link>
-        {/* <MenuItem onClick={handleClose}>Spenning</MenuItem>
-        <MenuItem onClick={handleClose}>Thriller</MenuItem>
-        <MenuItem onClick={handleClose}>Tragedie</MenuItem> */}
+
+        <Link to={'books/Spenning'}>
+          <MenuItem onClick={handleClose}>Spenning</MenuItem>
+        </Link>
+
+        <Link to={'books/Thriller'}>
+          <MenuItem onClick={handleClose}>Thriller</MenuItem>
+        </Link>
+
+        <Link to={'books/Tragedie'}>
+          <MenuItem onClick={handleClose}>Tragedie</MenuItem>
+        </Link>
       </Menu>
     </div>
   );
