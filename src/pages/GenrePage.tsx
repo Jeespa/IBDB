@@ -16,12 +16,14 @@ function GenrePage() {
 
     useEffect(() => {
         const fetchCoverUrls = async () => {
-            const coverUrlPromises = booksToShow.map((book) => {
-                return getDownloadURL(ref(storage, `books/${book.documentID}.jpg`));
-            });
+            if (booksToShow.length > 0) {
+                const coverUrlPromises = booksToShow.map((book) => {
+                    return getDownloadURL(ref(storage, `books/${book.documentID}.jpg`));
+                });
 
-            const urls = await Promise.all(coverUrlPromises);
-            setCoverUrls(urls);
+                const urls = await Promise.all(coverUrlPromises);
+                setCoverUrls(urls);
+            }
         };
 
         fetchCoverUrls();
@@ -34,17 +36,21 @@ function GenrePage() {
     return (
         <div className='previewContainer'>
             <h1>{genre}</h1>
-            <ul>
-                {booksToShow.map((book, i) => (
-                    <li className='genreBookPreview' key={i} id={book.documentID} onClick={onBookClick} style={{ cursor: 'pointer' }}>
-                        <div className='titlePreview'>{book.title}</div>
-                        {coverUrls[i] && (
-                            <img className='bookPreview' src={coverUrls[i]} />
-                        )}
-                        
-                    </li>
-                ))}
-            </ul>
+            {booksToShow.length > 0 ? (
+                <ul>
+                    {booksToShow.map((book, i) => (
+                        <li className='genreBookPreview' key={i} id={book.documentID} onClick={onBookClick} style={{ cursor: 'pointer' }}>
+                            <div className='titlePreview'>{book.title}</div>
+                            {coverUrls[i] && (
+                                <img className='bookPreview' src={coverUrls[i]} />
+                            )}
+                            
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p>No books found in this genre.</p>
+            )}
         </div>
     );
 }
