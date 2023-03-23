@@ -8,20 +8,21 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, Timestamp } from "firebase/firestore";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+
 import { auth, db } from "../firebase-config";
 import { Review } from "../schemas/Review"
 import { User } from '../schemas/User';
 
 
-const addReview = () => {
+function addReview() {
   const [rating, setRating] = useState("1");
   const [ratingValue, setRatingValue] = useState(1);
   const [text, setText] = useState("");
-  const [isbn, setIsbn] = useState(useParams().isbn);
-  const [published, setPublished] = useState(new Date().toLocaleString() + "");
+  const isbn = useParams().isbn;
+  const published = Timestamp.fromDate(new Date());
 
   const handleChange = (event: SelectChangeEvent) => {
     setRating(event.target.value);
@@ -41,7 +42,7 @@ const addReview = () => {
           user: user!,
           username: username,
           book: book!,
-          rating: rating,
+          rating: ratingValue,
           text: text,
           published: published
         };
@@ -61,10 +62,9 @@ const addReview = () => {
     const docSnap = await getDoc(docRef);
     const user = docSnap.data() as User;
     const username = user.name;
-    
-    return username;
-}
 
+    return username;
+  }
   return (
     <div>
       <Container
@@ -94,7 +94,6 @@ const addReview = () => {
           </Button>
         </Stack>
       </Container>
-      
     </div>
   );
 }

@@ -5,7 +5,7 @@ export interface Review {
     user: string;
     username: string;
     book: string;
-    rating: string;
+    rating: number;
     text: string;
-    published?: string;
+    published?: Timestamp;
 }
