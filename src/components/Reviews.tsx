@@ -1,8 +1,8 @@
-import { TableContainer, Table, Paper, TableHead, TableRow, TableCell, TableBody, Button } from "@mui/material"
-import { useState, useEffect, Fragment } from "react";
-import { collection, query, onSnapshot, DocumentData, where, doc, getDoc, deleteDoc } from "firebase/firestore";
+import { Button } from "@mui/material"
+import { useState, useEffect } from "react";
+import { collection, query, onSnapshot, DocumentData, where, doc, deleteDoc } from "firebase/firestore";
 
-import { db, auth } from "../firebase-config";
+import { db } from "../firebase-config";
 import isAdmin from "../utils/admin";
 import '../schemas/Review.ts';
 import './Reviews.css'
