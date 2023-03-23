@@ -7,6 +7,7 @@ import './ProfilePage.css'
 import ReadBooks from "../components/ReadBooks";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase-config";
+import WishList from "../components/WishList";
 import { doc, getDoc } from "firebase/firestore";
 
 function ProfilePage() {
@@ -16,12 +17,6 @@ function ProfilePage() {
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       setUserId(user.uid);
-      console.log(userId);
-      const userDoc = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userDoc);
-      console.log(userId)
-      //const userBooks = userSnap.get("readBooks");
-      //setUserBooks(userBooks);
     }
   });
 
@@ -61,7 +56,10 @@ function ProfilePage() {
         )
       }
       <Logout />
-      {userId && <ReadBooks userId={userId} />}
+      <div className="wrapper">
+        {userId && <ReadBooks userId={userId} />}
+        {userId && <WishList userId={userId}/>}
+      </div>
     </div>
   );
 

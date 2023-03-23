@@ -31,9 +31,6 @@ export default function AverageRating() {
                 setTotalReviews(tempReviews)
             });
         })
-        console.log(currentBook)
-        console.log(tempRating)
-        console.log(tempReviews)
     }
     
     //call getRatings when app is loaded

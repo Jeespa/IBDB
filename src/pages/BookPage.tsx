@@ -19,6 +19,8 @@ function BookPage() {
   const [book, setBook] = useState<Book>();
   const [bookExists, setBookExists] = useState(true);
   const [imageURL, setImageURLState] = useState<string>();
+  const [hasAddedWish, setHasAddedWish]=useState(false);
+  const [wButtonName, setWButtonName]=useState("Legg til i min ønskeliste")
   const [hasReadBook, setHasReadBook] = useState(false);
   const [buttonName, setButtonName] = useState("Legg til i Leste bøker");
 
@@ -41,6 +43,64 @@ function BookPage() {
     })
     }
   };
+
+  const handleHasAddedWish = async () => {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      alert("Du må logge inn for å legge til bok i Leste bøker");
+      return;
+    }
+    const userDocRef = doc(db, "users", currentUser.uid);
+    const userDocSnapshot = await getDoc(userDocRef);
+    const userData = userDocSnapshot.data();
+    const wishlist = userData?.Wishlist || [];
+    if (hasAddedWish) {
+      const updatedWishlist = wishlist.filter((isbnInWishlist: string) => isbnInWishlist !== isbn);
+      await updateDoc(userDocRef, { Wishlist: updatedWishlist }).then(() => {
+        setHasAddedWish(false);
+        setWButtonName("Legg til i min ønskeliste");
+        setIsOpen(false);
+      })
+        .catch((error) => {
+          alert("En feil oppstod ved fjerning av bok fra Leste bøker: " + error.message); // Set error message
+        });
+    }
+    else {
+      updateDoc(userDocRef, {
+        Wishlist: arrayUnion(isbn),
+      }).then(() => {
+        setHasAddedWish(true);
+        setWButtonName("Fjern fra min ønskeliste");
+      })
+      .catch((error) => {
+        alert("En feil oppstod ved innleggelsen av boken i Leste bøker: " + error.message); // Set error message
+      });
+    }
+  }
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const userDocRef = doc(db, "users", user.uid);
+      getDoc(userDocRef)
+        .then((doc) => {
+          if (doc.exists()) {
+            const data = doc.data();
+            if (data.Wishlist.includes(isbn)) {
+              setHasAddedWish(true);
+              setWButtonName("Fjern fra min ønskeliste");
+            } else {
+              setHasAddedWish(false);
+              setWButtonName("Legg til i min ønskeliste");
+              setIsOpen(false);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+      });
+    }
+  });
+
 
 
     const [isOpen, setIsOpen] = useState(false);
@@ -69,7 +129,6 @@ function BookPage() {
       const readBooks = userData?.read || [];
 
       if (hasReadBook) {
-        console.log(isbn)
         const updatedReadBooks = readBooks.filter((isbnInRead: string) => isbnInRead !== isbn);
         
         await updateDoc(userDocRef, { read: updatedReadBooks }).then(() => {
@@ -100,7 +159,6 @@ function BookPage() {
         const userDocRef = doc(db, "users", user.uid);
         getDoc(userDocRef)
           .then((doc) => {
-            console.log(isbn);
             if (doc.exists()) {
               const data = doc.data();
               if (data.read.includes(isbn)) {
@@ -150,6 +208,10 @@ function BookPage() {
           </div>
         </div>
         <div className="reviewmodal">
+        
+        
+
+        <button onClick={handleHasAddedWish}>{wButtonName}</button>
         <button onClick={handleHasReadBook}>{buttonName}</button>
         <button onClick={handleOpenModal} disabled={!hasReadBook}> Legg til vurdering</button>
           {isOpen && (
@@ -158,6 +220,7 @@ function BookPage() {
               <button onClick={handleCloseModal}> Lukk </button>
             </div>
           )}
+        
         </div>
   
       <Reviews isbn={isbn} />
