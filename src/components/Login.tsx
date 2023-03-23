@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
-import app from "./config";
+import React, { useRef, useState } from 'react';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase-config";
+import { useNavigate } from 'react-router-dom';
+import "./Login.css";
 
 function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const auth = getAuth(app)
-
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
+      .then(() => {
         alert("Logged in successfully!");
+        navigate('/profile');
       })
       .catch(error => {
         alert(error.message);
@@ -23,20 +23,21 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+  
+    <form className="login-form" onSubmit={handleSubmit}>
       <input
         type="email"
         value={email}
         onChange={e => setEmail(e.target.value)}
-        placeholder="Email"
+        placeholder="Epost"
       />
       <input
         type="password"
         value={password}
         onChange={e => setPassword(e.target.value)}
-        placeholder="Password"
+        placeholder="Passord"
       />
-      <button type="submit">Login</button>
+      <button type="submit">Logg inn</button>
     </form>
   );
 }

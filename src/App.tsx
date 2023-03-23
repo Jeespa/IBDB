@@ -1,74 +1,35 @@
-import { useState } from "react";
-import { TextField, Button, Stack, Paper, Container } from "@mui/material";
-import Books from "./Books";
-import Login from "./Login"
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import { db } from "./config.js";
-import { doc, setDoc } from "firebase/firestore";
+import Navbar from './components/Navbar';
+import "./App.css";
+import Home from "./pages/HomePage"
+import AddBook from './pages/AddBookPage'
+import AddAuthor from './pages/AddAuthorPage'
+import LoginPage from "./pages/LoginPage";
+import CreateUserPage from "./pages/CreateUserPage";
+import ProfilePage from "./pages/ProfilePage";
+import BookPage from "./pages/BookPage";
+import GenrePage from './pages/GenrePage';
 
-function App() {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [quantity, setQuantity] = useState("");
-  
-  const addBook = async () => {
-    if (title !== "" && author !== "" && quantity !== "") {
-      try {
-        //add book data to collection
-        await setDoc(doc(db, "Bøker", title), {
-          title,
-          author,
-          quantity,
-        });
-        //clear text fields
-        setTitle("");
-        setAuthor("");
-        setQuantity("");
-        alert("A new book has been added to the library!");
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-    } else alert("Missing fields");
-  };
-
+function app() {
   return (
-    <div className="App">
-      <Login />
-      <h1>Firestore Library</h1>
-      <Container
-        component={Paper}
-        sx={{ marginBottom: "20px", padding: "20px" }}
-      >
-        <h2 style={{ fontSize: "20px" }}>Add New Book</h2>
-        <Stack direction="row" spacing={2}>
-          <TextField
-            label="Title"
-            value={title}
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
-          />
-          <TextField
-            label="Author"
-            value={author}
-            onChange={(e) => {
-              setAuthor(e.target.value);
-            }}
-          />
-          <TextField
-            label="Quantity"
-            value={quantity}
-            type="number"
-            onChange={(e) => {
-              setQuantity(e.target.value);
-            }}
-          />
-          <Button variant="contained" onClick={addBook}>Add Book</Button>
-        </Stack>
-      </Container>
-      <Books />
+    <Router>
+    <div className="pt-20">
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />}/>
+        <Route path="/add-book" element={<AddBook />}/>
+        <Route path="/add-author" element={<AddAuthor />}/>
+        <Route path="/login" element={<LoginPage />}/>
+        <Route path="/createuser" element={<CreateUserPage />}/>
+        <Route path="/profile" element={<ProfilePage />}/>
+        <Route path="/book/:isbn" element={<BookPage />}/>
+        <Route path="/books/:genre" element={<GenrePage />} />
+      </Routes>
     </div>
-  );
+    </Router>
+  )
 }
 
-export default App;
+export default app;
