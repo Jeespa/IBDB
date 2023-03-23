@@ -139,6 +139,7 @@ function Search() {
       navigate(`/author/${docID}`);
     }
     setShowResults(false);
+    setSearchQuery('')
   };
 
   const handleSearchIconClick = () => {
