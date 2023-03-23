@@ -19,14 +19,12 @@ import { User } from '../schemas/User';
 
 function addReview() {
   const [rating, setRating] = useState("1");
-  const [ratingValue, setRatingValue] = useState(1);
   const [text, setText] = useState("");
   const isbn = useParams().isbn;
   const published = Timestamp.fromDate(new Date());
 
   const handleChange = (event: SelectChangeEvent) => {
     setRating(event.target.value);
-    setRatingValue(parseInt(rating));
   };
 
   const insertReview = async () => {
@@ -36,17 +34,16 @@ function addReview() {
     const book = isbn;
     const documentID = book! + user;
 
-    if (ratingValue > 0 && ratingValue < 7) {
+    if (parseInt(rating) > 0 && parseInt(rating) < 7) {
       try {
         const review: Review = {
           user: user!,
           username: username,
           book: book!,
-          rating: ratingValue,
+          rating: parseInt(rating),
           text: text,
           published: published
         };
-
         const docRef = doc(db, 'reviews', documentID);
         await setDoc(docRef, review);
       } catch (e) {
