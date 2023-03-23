@@ -57,7 +57,7 @@
   display: inline-block;
   width: 50%;
   vertical-align: top;
-  booklist-style: none;
+  list-style: none;
   padding: 0;
   background-color: #f5f5f5;
   margin: 20px 1% 0; /* add top margin and space between booklists */
