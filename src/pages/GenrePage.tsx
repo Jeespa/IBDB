@@ -49,7 +49,7 @@ function GenrePage() {
                     ))}
                 </ul>
             ) : (
-                <p>No books found in this genre.</p>
+                <p>Fant ingen bøker innenfor denne sjangeren.</p>
             )}
         </div>
     );

@@ -40,9 +40,8 @@ button:focus-visible #darkmode {
 
 /*profile*/
 
-/*Denne funker ikke, blir overstyrt av noe annet*/
-.dark-mode .Logout form {
-    background-color: #323232;
+.dark-mode #logoutBtn {
+    background-color: #2C66A3;
 }
 
 .dark-mode .MuiPaper-root {
@@ -68,6 +67,10 @@ button:focus-visible #darkmode {
 
 .dark-mode label {
     color: #ffffff;
+}
+
+.dark-mode tr td:hover {
+    background-color: #575757;
 }
 
 /* home */
@@ -97,7 +100,6 @@ button:focus-visible #darkmode {
 }
 
 .dark-mode .css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root{
-    background-color: #575757;
     color: #ffffff;
 }
 
@@ -118,10 +120,6 @@ button:focus-visible #darkmode {
     background-color: #0096C7;
 }
 
-.dark-mode .reviewcomponent {
-    background-color: #444;
-}
-
 .dark-mode .Logout button {
     background-color: #0096C7;
 }
@@ -135,6 +133,10 @@ button:focus-visible #darkmode {
 
 #darkModeIcon {
     padding: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    right: 10px;
 }
 
 #closeBtn {
@@ -144,9 +146,28 @@ button:focus-visible #darkmode {
     margin-block-end: -0.17em;
 }
 
-.darkmode .genreBookPreview {
-    background-color: #575757;
+.dark-mode .reviewcomponent {
+    background-color: #444;
+}
+
+.dark-mode .reviewmodal button {
+    color: black;
+}
+
+.dark-mode .reviewmodal button:disabled {
+    color: gray;
+}
+
+/* genrePage */
+
+.dark-mode .genreBookPreview {
+    background-color: #3B3B3B;
     border-style: solid;
     border-width: 14px;
     border-color: #323232;
   }
+
+.dark-mode .MuiMenuItem-root:hover {
+    background-color: #575757;
+  }
+

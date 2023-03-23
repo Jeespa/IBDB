@@ -38,6 +38,7 @@ function ProfilePage() {
 
   return (
     <div>
+      <Logout />
       <h1>Brukerside</h1>
       {
         admin && (
@@ -55,7 +56,7 @@ function ProfilePage() {
           </div>
         )
       }
-      <Logout />
+      
       <div className="wrapper">
         {userId && <ReadBooks userId={userId} />}
         {userId && <WishList userId={userId}/>}

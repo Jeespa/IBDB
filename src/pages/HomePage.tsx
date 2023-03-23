@@ -6,14 +6,14 @@ function Home() {
   return (
     <div className="topPage">
       <div className="bestBooks">
-        <h2>Månedens beste bøker</h2>
+        <h2>Topp 5 bøker</h2>
         <div>
         <Slideshow />
         </div>
       </div>
       
       <div className="bestAuthor">
-        <h2>Månedens beste forfattere</h2>
+        <h2>Topp 5 forfattere</h2>
         <div>
           <AuthorSlideshow />
         </div>

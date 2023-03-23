@@ -14,7 +14,7 @@ function Logout() {
     };
 
     return (
-        <button type="submit" onClick={handleLogout}>Logg ut</button>
+        <button id="logoutBtn" type="submit" onClick={handleLogout}>Logg ut</button>
     )
 }
 
