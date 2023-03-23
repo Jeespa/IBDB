@@ -31,7 +31,7 @@ export default function Reviews(isbn: any) {
   function showDeleteReview(reviewID: string) {
     if (admin) {
       return (
-        <Button color="warning" variant="outlined" onClick={() => deleteReview(reviewID)}> Delete </Button>
+        <Button color="warning" variant="outlined" onClick={() => deleteReview(reviewID)}> Slett </Button>
       )
     }
   }
