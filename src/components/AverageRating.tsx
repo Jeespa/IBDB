@@ -27,16 +27,20 @@ export default function AverageRating() {
             querySnapshot.forEach((doc) => {
                 tempRating = tempRating + parseInt(doc.get("rating"));
                 tempReviews++;
-                setTotalRating(tempRating)
-                setTotalReviews(tempReviews)
-            });
+            })
+            setTotalRating(tempRating);
+            setTotalReviews(tempReviews);
         })
     }
     
     //call getRatings when app is loaded
     useEffect(() => {
         getRatings().then( () => {
-            updateAverageRating();
+            if (totalRating == 0) {
+                setAverageRating(0)
+            } else {
+                updateAverageRating();
+            }
         })
     });
 
