@@ -56,8 +56,10 @@ function ProfilePage() {
         )
       }
       <Logout />
-      {userId && <ReadBooks userId={userId} />}
-      {userId && <WishList userId={userId}/>}
+      <div className="wrapper">
+        {userId && <ReadBooks userId={userId} />}
+        {userId && <WishList userId={userId}/>}
+      </div>
     </div>
   );
 
