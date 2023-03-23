@@ -5,14 +5,14 @@
     /* height: 100vh; */
 }
 
-.book { 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 800px;
-  margin-top: 30px;
-  text-align: left;
-  margin-bottom: 20px;
+.book {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 800px;
+    margin-top: 30px;
+    text-align: left;
+    margin-bottom: 20px;
 }
 
 .bookimg {
@@ -36,12 +36,12 @@
     width: 24px;
     height: 24px;
     margin-left: 1rem;
-  }
+}
 
 
 .reviewmodal {
     margin-bottom: 30px;
-    
+
 }
 
 .reviewmodal button {
@@ -52,7 +52,11 @@
 
 .reviewmodal button:hover {
     background-color: #bbdafb;
-  }
+}
+
+.css-74d3nl-MuiPaper-root-MuiContainer-root button {
+    color: black;
+}
 
 .author {
     font-family: cursive;

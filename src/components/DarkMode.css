@@ -19,7 +19,7 @@
 .dark-mode button {
     background-color: #0096C7;
     color: #ffffff;
-  }
+}
 
 button:active #darkmode {
     border-style: none;
@@ -32,8 +32,8 @@ button:focus-visible #darkmode {
     outline: 0px;
 }
 
-.dark-mode .next, .dark-mode
-.previous {
+.dark-mode .next,
+.dark-mode .previous {
     background-color: #444;
     color: #ffffff;
 }
@@ -99,7 +99,7 @@ button:focus-visible #darkmode {
     color: #ffffff;
 }
 
-.dark-mode .css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root{
+.dark-mode .css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root {
     color: #ffffff;
 }
 
@@ -165,9 +165,8 @@ button:focus-visible #darkmode {
     border-style: solid;
     border-width: 14px;
     border-color: #323232;
-  }
+}
 
 .dark-mode .MuiMenuItem-root:hover {
     background-color: #575757;
-  }
-
+}
