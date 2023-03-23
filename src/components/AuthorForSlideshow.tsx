@@ -1,3 +1,4 @@
+import { margin } from "@mui/system";
 import { getDownloadURL, ref } from "firebase/storage";
 import { useState } from "react";
 import { storage } from "../firebase-config";
@@ -31,7 +32,7 @@ function AuthorForSlideshow({ author, id }: AuthorForSlideshowProps) {
           borderRadius: "5px",
         }}
       />
-      <div>{author}</div>
+      <div style={{marginTop: '25px'}}>{author}</div>
     </div>
   );
 }
