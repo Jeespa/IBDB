@@ -81,7 +81,6 @@ function BookPage() {
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      console.log(isbn)
       const userDocRef = doc(db, "users", user.uid);
       getDoc(userDocRef)
         .then((doc) => {
